@@ -2,15 +2,16 @@ import * as THREE from 'three';
 import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader.js'; 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'; 
 import { MMDAnimationHelper } from 'three/addons/animation/MMDAnimationHelper.js';
+import {FirstPersonCamera} from './FirstPersonCamera.js';
+import {FirstPersonControls} from 'three/addons/controls/FirstPersonControls';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-const controls = new OrbitControls(camera, renderer.domElement);
+//const orbitControls = new OrbitControls(camera, renderer.domElement);
 document.body.appendChild(renderer.domElement);
 
 const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -18,6 +19,14 @@ const material = new THREE.MeshBasicMaterial({ });
 const cube = new THREE.Mesh(geometry, material);
 const helper = new MMDAnimationHelper();
 const clock=new THREE.Clock()
+
+const changeViewButton = document.querySelector("#change-view-button");
+
+changeViewButton.addEventListener("click", (event) => {
+    console.log("TODO: change the POV");
+});
+
+
 
 const loader1 = new MMDLoader();
 loader1.load(
@@ -126,6 +135,8 @@ scene.add(light)
 camera.position.z = 5;
 camera.position.y = 3;
 
+const firstPersonCamera = new FirstPersonCamera(camera);
+
 function animate() {
     requestAnimationFrame(animate); // Thêm dòng này để loop animation
     
@@ -134,6 +145,7 @@ function animate() {
     // cube.rotation.x += 0.01;
 	// cube.rotation.y += 0.01;
     renderer.render(scene, camera);
+    firstPersonCamera.update(clock.getDelta());
 }
 
 animate();
