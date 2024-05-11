@@ -14,9 +14,15 @@ export class InputController {
         }
 
         this._previous = null;
+
+        this._keys = {};
+        this._previousKeys = {};
+
         document.addEventListener("mousedown", (e) => this._onMouseDown(e), false);
         document.addEventListener("mouseup", (e) => this._onMouseUp(e), false);
         document.addEventListener("mousemove", (e) => this._onMouseMove(e), false);
+        document.addEventListener("keyup", (e) => this._onkeyUp(e), false);
+        document.addEventListener("keydown", (e) => this._onkeyDown(e), false);
     }
 
     _onMouseDown(event) {
@@ -57,9 +63,24 @@ export class InputController {
         this._current.mouseYDelta = this._current.mouseY - this._previous.mouseY; 
     }
 
-    update() {
+    _onkeyUp(event) {
+        this._keys[event.keyCode] = false;
+    }
+
+    _onkeyDown(event) {
+        this._keys[event.keyCode] = true;
+    }
+
+    key(keyCode) {
+        return this._keys[keyCode];
+    }
+
+    update(dt) {
         this._current.mouseXDelta = 0;
         this._current.mouseYDelta = 0;
         this._previous = {...this._current};
+
+        //this._keys[event.keyCode] = false;
+        this._previousKeys = {...this._keys};
     }
 }

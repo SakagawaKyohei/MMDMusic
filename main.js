@@ -132,6 +132,7 @@ const light=new THREE.DirectionalLight(0xffffff,1); //1: cuong do anh sang
 light.position.set(2,2,5);
 scene.add(light)
 
+// TODO: find the position of Miku head 
 camera.position.z = 5;
 camera.position.y = 3;
 
