@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader.js'; 
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'; 
 import { MMDAnimationHelper } from 'three/addons/animation/MMDAnimationHelper.js';
 
 const scene = new THREE.Scene();
@@ -8,6 +9,8 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
+
+const controls = new OrbitControls(camera, renderer.domElement);
 document.body.appendChild(renderer.domElement);
 
 const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -52,52 +55,52 @@ var onProgress = function ( xhr ) {
 var onError = function ( xhr ) {
 };
 
-// loader1.load( 'miku_v2.pmd', 'wavefile_v2 (1).vmd', function ( object ) {
-
+// loader1.load( './miku_v2.pmd', './wavefile_v2 (1).vmd', function ( object ) {
+//
 // 	var mesh = object;
-// 	miku = mesh;
-
+// 	//const miku = mesh;
+//
 // 	var materials = mesh.material;
-
+//
 // 	for ( var i = 0, il = materials.length; i < il; i ++ ) {
-
+//
 // 		var material = materials[ i ];
 // 		material.emissive.multiplyScalar( 0.2 );
-
+//
 // 	}
-
+//
 // 	mesh.castShadow = true;
 // 	mesh.receiveShadow = true;
-
+//
 // 	helper.add( mesh );
 // 	helper.setAnimation( mesh );
 // 	helper.setPhysics( mesh );
-
+//
 // 	main.add( mesh );
-
+//
 // 	loader.loadVmds( cameraFiles, function ( vmd ) {
-
+//
 // 		helper.setCamera( camera );
-
+//
 // 		loader.pourVmdIntoCamera( camera, vmd );
 // 		helper.setCameraAnimation( camera );
-
+//
 // 		loader.loadAudio( audioFile, function ( audio, listener ) {
-
+//
 // 			listener.position.z = 1;
-
+//
 // 			helper.setAudio( audio, listener, audioParams );
-
+//
 // 			/*
 // 			 * Note: call this method after you set all animations
 // 			 *       including camera and audio.
 // 			 */
 // 			helper.unifyAnimationDuration( { afterglow: 2.0 } );
-
+//
 // 			scene.add( audio );
 // 			scene.add( listener );
 // 			scene.add( main );
-
+//
 // 			star = new THREE.Mesh(
 // 				new THREE.SphereBufferGeometry( 0.1, 8 ),
 // 				new THREE.MeshPhongMaterial( {
@@ -105,15 +108,15 @@ var onError = function ( xhr ) {
 // 					transparent: true
 // 				} )
 // 			);
-
+//
 // 			ready = true;
-
+//
 // 		}, onProgress, onError );
-
+//
 // 	}, onProgress, onError );
-
+//
 // }, onProgress, onError );
-
+//
 
 
 const light=new THREE.DirectionalLight(0xffffff,1); //1: cuong do anh sang
