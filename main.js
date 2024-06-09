@@ -1,5 +1,6 @@
 // //thanh
 import * as THREE2 from 'three';
+import { MMDPhysics } from 'three/addons/animation/MMDPhysics.js';
 import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader.js'; 
 import { MMDAnimationHelper } from 'three/addons/animation/MMDAnimationHelper.js';
 import {FirstPersonCamera} from './FirstPersonCamera.js';
@@ -8,6 +9,7 @@ var renderer = new THREE2.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 document.getElementById('webgl').appendChild(renderer.domElement);
+let physicss;
  var camera = new THREE2.PerspectiveCamera(
         45,
         window.innerWidth/window.innerHeight,
@@ -157,13 +159,13 @@ function init() {
     });
     
     var folder1 = gui.addFolder('spotlight_1');
-    folder1.add(lightLeft, 'intensity', 0, 10);
+    folder1.add(lightLeft, 'intensity', 0, 10000000);
     folder1.add(lightLeft.position, 'x', -100, 100);
     folder1.add(lightLeft.position, 'y', -60, 60);
     folder1.add(lightLeft.position, 'z', -100, 100);
 
     var folder2 = gui.addFolder('spotlight_2');
-    folder2.add(lightRight, 'intensity', 0, 10);
+    folder2.add(lightRight, 'intensity', 0, 10000000);
     folder2.add(lightRight.position, 'x', -100, 100);
     folder2.add(lightRight.position, 'y', -60, 60);
     folder2.add(lightRight.position, 'z', -100, 100);
@@ -231,53 +233,9 @@ const changeViewButton = document.querySelector("#change-view-button");
 
 const loader1 = new MMDLoader();
 var miku ='miku_v2.pmd';
+var rin ='rin.pmd';
 const helper = new MMDAnimationHelper();
 
-loader1.loadWithAnimation(
-	// path to PMD/PMX file
-	miku,
-	"wavefile_v2.vmd",
-	// called when the resource is loaded
-	 function (mmd) {
-		// physics = new MMDPhysics( mmd )
-		// scene.add( physics );
-	
-		helper.add( mmd.mesh, {
-			animation: mmd.animation,
-			physics: true
-		} );
-		
-		scene.add( mmd.mesh );
-		new THREE2.AudioLoader().load(
-			'examples_models_mmd_audios_wavefile_short.mp3',
-			
-			 function ( buffer ) {
-
-				const listener = new THREE2.AudioListener();
-				const audio = new THREE2.Audio( listener ).setBuffer( buffer );
-
-				listener.position.z = 1;
-
-				scene.add( audio );
-				scene.add( listener );
-
-			}
-
-		);
-	
-	},
-	
-	// called when loading is in progresses
-	function ( xhr ) {
-
-		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-	},
-	// called when loading has errors
-	function ( error ) {
-		console.log( error);
-	}
-);
 
 function animate(scene, camera, renderer, thing) {
     update_1(thing); // Gọi hàm update() để cập nhật trạng thái của các đối tượng trong cảnh
@@ -393,32 +351,73 @@ function animate1() {
 	helper.update( clock.getDelta() );
 
     renderer.render(scene, camera);
-        firstPersonCamera.update(clock.getDelta());
+    firstPersonCamera.update(clock.getDelta());
+    if ( physicss !== undefined ) physicss.update( delta );
 }
-// var button = document.getElementById("myButton");
+var button = document.getElementById("myButton");
 
-// // Thêm sự kiện click vào button
-// button.addEventListener("click",function() {
-// 	// Thực thi một hành động nào đó khi button được click
-// 	alert("Button clicked!");
-// 	new THREE2.AudioLoader().load(
-// 		'examples_models_mmd_audios_wavefile_short.mp3',
-		
-// 		 function ( buffer ) {
+let count=0;
+// Thêm sự kiện click vào button
+button.addEventListener("click", function() {
+    count=count+1;
+ // Assuming you have a reference to your scene called 'scene'
+// Get the last object added to the scene
+if(count>1)
+    {
+        const lastObject = scene.children[scene.children.length - 1];
 
-// 			const listener = new THREE2.AudioListener();
-// 			const audio = new THREE2.Audio( listener ).setBuffer( buffer );
-
-// 			listener.position.z = 1;
-
-// 			scene.add( audio );
-// 			scene.add( listener );
-// audio.play();
-// 		}
-// 	);
+        // Remove the last object from the scene
+        scene.remove(lastObject);
+    }
 
 
-// });
+    // Thực thi một hành động nào đó khi button được click
+    alert("Button clicked!");
+
+    // Thay đổi giá trị của biến miku
+    if (miku === "miku_v2.pmd") {
+        miku = "rin.pmd";
+    } else {
+        miku = "miku_v2.pmd";
+    }
+    console.log(miku);
+
+
+    // Load mô hình 3D mới
+    loader1.loadWithAnimation(
+        miku,
+        "wavefile_v2.vmd",
+        function(mmd) {
+            helper.add(mmd.mesh, {
+                animation: mmd.animation,
+                physics: true
+            });
+ 
+            scene.add(mmd.mesh);
+            // Lưu trữ tham chiếu đến mô hình 3D mới
+            currentModel = mmd.mesh;
+            // Load âm thanh
+            new THREE2.AudioLoader().load(
+                'examples_models_mmd_audios_wavefile_short.mp3',
+                function(buffer) {
+                    const listener = new THREE2.AudioListener();
+                    const audio = new THREE2.Audio(listener).setBuffer(buffer);
+                    listener.position.z = 1;
+                    scene.add(audio);
+                    scene.add(listener);
+                }
+            );
+        },
+        function(xhr) {
+            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        },
+        function(error) {
+            console.log(error);
+        }
+    );
+});
+
+
 animate1();
 
 
