@@ -203,7 +203,7 @@ function init() {
     
    
     var controls = new THREE.OrbitControls(camera, renderer.domElement);
-    update(renderer, scene, camera, controls);
+ 
 
     animate(scene, camera, renderer, ico1);
     animate(scene, camera, renderer, ico2);
