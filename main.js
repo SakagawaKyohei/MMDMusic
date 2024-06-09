@@ -1,5 +1,24 @@
+// //thanh
+import * as THREE2 from 'three';
+import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader.js'; 
+import { MMDAnimationHelper } from 'three/addons/animation/MMDAnimationHelper.js';
+var renderer = new THREE2.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+document.getElementById('webgl').appendChild(renderer.domElement);
+ var camera = new THREE2.PerspectiveCamera(
+        45,
+        window.innerWidth/window.innerHeight,
+        1,
+        1000);
+
+    camera.position.x = 2;
+    camera.position.y = 8;
+    camera.position.z = 100;
+
+    camera.lookAt(new THREE2.Vector3(0, 0, 0));
 function init() {
-    var scene = new THREE.Scene();
+    var scene = new THREE2.Scene();
     var gui = new dat.GUI();
 
     var sphereMaterial = getMaterial('standard', 'rgb(255, 4, 255)');
@@ -31,7 +50,7 @@ function init() {
     var directionalLight = getDirectionalLight(1);
 
     sphere.position.y = sphere.geometry.parameters.radius;
-    sphere.position.x = 65;
+    sphere.position.x = 68;
     sphere2.position.y = 20;
     sphere2.position.x = -65;
     sphere2.position.z = 30;
@@ -39,7 +58,7 @@ function init() {
     sphere1.position.y = 30;
     sphere1.position.z = -10;
     plane.rotation.x = Math.PI/2;
-    box.position.x = -2;
+    box.position.x = -200;
     box.position.y = 10.1;
     box.position.z = -10;
     cylinder.position.x = -65;
@@ -90,12 +109,12 @@ function init() {
         path + 'pz' + format, path + 'nz' + format
     ];
 
-    var reflectionCube = new THREE.CubeTextureLoader().load(urls);
-    reflectionCube.format = THREE.RGBAFormat;
+    var reflectionCube = new THREE2.CubeTextureLoader().load(urls);
+    reflectionCube.format = THREE2.RGBAFormat;
 
     scene.background = reflectionCube;
 
-    var loader = new THREE.TextureLoader();
+    var loader = new THREE2.TextureLoader();
     planeMaterial.map = loader.load('/texture/brick_diffuse.jpg');
     planeMaterial.bumpMap = loader.load('/texture/brick_diffuse.jpg');
     planeMaterial.roughnessMap = loader.load('/texture/brick_diffuse.jpg');
@@ -130,8 +149,8 @@ function init() {
     var maps = ['map', 'bumpMap', 'roughnessMap'];
     maps.forEach(function(mapName) {
         var texture = planeMaterial[mapName];
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
+        texture.wrapS = THREE2.RepeatWrapping;
+        texture.wrapT = THREE2.RepeatWrapping;
         texture.repeat.set(15, 15);
     });
     
@@ -177,25 +196,11 @@ function init() {
     scene.add(directionalLight);
     
 
-    var camera = new THREE.PerspectiveCamera(
-        45,
-        window.innerWidth/window.innerHeight,
-        1,
-        1000);
+   
 
-    camera.position.x = 2;
-    camera.position.y = 8;
-    camera.position.z = 100;
-
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
-
-    var renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMap.enabled = true;
-    document.getElementById('webgl').appendChild(renderer.domElement);
-
+   
     var controls = new THREE.OrbitControls(camera, renderer.domElement);
-    update(renderer, scene, camera, controls);
+
 
     animate(scene, camera, renderer, ico1);
     animate(scene, camera, renderer, ico2);
@@ -208,21 +213,66 @@ function init() {
 
 }
 
-function update(renderer, scene, camera, controls) {
-    renderer.render(scene, camera);
 
-    controls.update();
-
-    requestAnimationFrame(function() {
-        update(renderer, scene, camera, controls);
-    });
-}
 
 function update_1(thing) {
     thing.rotation.x += 0.01;
     thing.rotation.y += 0.1;
     thing.rotation.z += 0.01;
 }
+
+const clock=new THREE2.Clock()
+
+
+const loader1 = new MMDLoader();
+var miku ='miku_v2.pmd';
+const helper = new MMDAnimationHelper();
+
+loader1.loadWithAnimation(
+	// path to PMD/PMX file
+	miku,
+	"wavefile_v2.vmd",
+	// called when the resource is loaded
+	 function (mmd) {
+		// physics = new MMDPhysics( mmd )
+		// scene.add( physics );
+	
+		helper.add( mmd.mesh, {
+			animation: mmd.animation,
+			physics: true
+		} );
+		
+		scene.add( mmd.mesh );
+		new THREE2.AudioLoader().load(
+			'examples_models_mmd_audios_wavefile_short.mp3',
+			
+			 function ( buffer ) {
+
+				const listener = new THREE2.AudioListener();
+				const audio = new THREE2.Audio( listener ).setBuffer( buffer );
+
+				listener.position.z = 1;
+
+				scene.add( audio );
+				scene.add( listener );
+
+			}
+
+		);
+	
+	},
+	
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+		console.log( error);
+	}
+);
 
 function animate(scene, camera, renderer, thing) {
     update_1(thing); // Gọi hàm update() để cập nhật trạng thái của các đối tượng trong cảnh
@@ -236,7 +286,7 @@ function animate(scene, camera, renderer, thing) {
 
 function getSpotLight(intensity, color) {
     color = color === undefined ? 'rgb(255, 255, 255)' : color;
-    var light = new THREE.SpotLight(color, intensity);
+    var light = new THREE2.SpotLight(color, intensity);
     light.castShadow = true;
     light.penumbra = 0.5;
 
@@ -247,7 +297,7 @@ function getSpotLight(intensity, color) {
 }
 
 function getDirectionalLight(intensity) {
-    var light = new THREE.DirectionalLight(0xffffff, intensity);
+    var light = new THREE2.DirectionalLight(0xffffff, intensity);
     light.castShadow = true;
 
     light.shadow.camera.left = -10;
@@ -260,37 +310,37 @@ function getDirectionalLight(intensity) {
 
 function getBox(material, w, h, d)
 {
-    var geometry = new THREE.BoxGeometry(w, h, d);
-    var obj = new THREE.Mesh(geometry, material);
+    var geometry = new THREE2.BoxGeometry(w, h, d);
+    var obj = new THREE2.Mesh(geometry, material);
     obj.castShadow = true;
     return obj;
 }
 
 function getSphere(material, size, segments)
 {
-    var geometry = new THREE.SphereGeometry(size, segments, segments);
-    var obj = new THREE.Mesh(geometry, material);
+    var geometry = new THREE2.SphereGeometry(size, segments, segments);
+    var obj = new THREE2.Mesh(geometry, material);
     obj.castShadow = true;
     return obj;
 }
 function getPlane(material, size)
 {
-    var geometry = new THREE.PlaneGeometry(size, size);
-    material.side = THREE.DoubleSide;
-    var obj = new THREE.Mesh(geometry, material);
+    var geometry = new THREE2.PlaneGeometry(size, size);
+    material.side = THREE2.DoubleSide;
+    var obj = new THREE2.Mesh(geometry, material);
     obj.receiveShadow = true;
     return obj;
 }
 
 function getIcosahedron(material, size) {
-    var geometry = new THREE.IcosahedronGeometry(size);
-    var mesh = new THREE.Mesh(geometry, material);
+    var geometry = new THREE2.IcosahedronGeometry(size);
+    var mesh = new THREE2.Mesh(geometry, material);
     return mesh;
 }
 
 function getCylinder(material, r_top, r_bot, h, radial) {
-    var geometry = new THREE.CylinderGeometry(r_top, r_bot, h, radial); 
-    var cylinder = new THREE.Mesh(geometry, material );
+    var geometry = new THREE2.CylinderGeometry(r_top, r_bot, h, radial); 
+    var cylinder = new THREE2.Mesh(geometry, material );
     return cylinder
 }
 
@@ -302,22 +352,67 @@ function getMaterial(type, color){
 
     switch (type) {
         case 'basic':
-            selectedMaterial = new THREE.MeshBasicMaterial(materialOptions);
+            selectedMaterial = new THREE2.MeshBasicMaterial(materialOptions);
             break;
         case 'lambert':
-            selectedMaterial = new THREE.MeshLambertMaterial(materialOptions);
+            selectedMaterial = new THREE2.MeshLambertMaterial(materialOptions);
             break;
         case 'phong':
-            selectedMaterial = new THREE.MeshPhongMaterial(materialOptions);
+            selectedMaterial = new THREE2.MeshPhongMaterial(materialOptions);
             break;
         case 'standard':
-            selectedMaterial = new THREE.MeshStandardMaterial(materialOptions);
+            selectedMaterial = new THREE2.MeshStandardMaterial(materialOptions);
             break;
         default:
-            selectedMaterial = new THREE.MeshBasicMaterial(materialOptions);
+            selectedMaterial = new THREE2.MeshBasicMaterial(materialOptions);
             break;
     }
     return selectedMaterial;
 }
 
 var scene = init();
+
+
+//bao 
+
+
+
+
+
+
+
+function animate1() {
+    requestAnimationFrame(animate1); // Thêm dòng này để loop animation
+   
+	helper.update( clock.getDelta() );
+
+    renderer.render(scene, camera);
+}
+// var button = document.getElementById("myButton");
+
+// // Thêm sự kiện click vào button
+// button.addEventListener("click",function() {
+// 	// Thực thi một hành động nào đó khi button được click
+// 	alert("Button clicked!");
+// 	new THREE2.AudioLoader().load(
+// 		'examples_models_mmd_audios_wavefile_short.mp3',
+		
+// 		 function ( buffer ) {
+
+// 			const listener = new THREE2.AudioListener();
+// 			const audio = new THREE2.Audio( listener ).setBuffer( buffer );
+
+// 			listener.position.z = 1;
+
+// 			scene.add( audio );
+// 			scene.add( listener );
+// audio.play();
+// 		}
+// 	);
+
+
+// });
+animate1();
+
+
+
