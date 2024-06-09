@@ -4,7 +4,7 @@ import * as THREE from 'three';
 export class PointerLockFirstPersonCamera {
     constructor(camera, renderer) {
         this._camera = camera;
-        this._input = new InputController(renderer);
+        this._input = new PointerLockInputController(renderer);
         this._rotation = new THREE.Quaternion();
         this._translation = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
         this._phi = 0;
