@@ -1,29 +1,23 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Stage_MMD</title>
-        <meta charset="utf-8">
-        <style type="text/css"> html, body {margin: 0; padding: 0; overflow: hidden}</style>
-    </head>
-    <body>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
         <div id="webgl"></div>
+		<script type="module" src="/main.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/libs/ammo.js"></script>
+
         <script src="three.js"></script>
         <script src="dat.gui.min.js"></script>
         <script src="OrbitControls.js"></script>
-        <script src="main.js"></script>
+     
 
-        <img src = "/texture/concrete.jpg">
-        <img src = "/texture/brick_diffuse.jpg">
-        <img src = "/texture/checkerboard.jpg">
-        <img src = "/texture/fingerprint.jpg">
-        <img src = "/texture/water.jpg">
-
-        <img src = "/texture/nx.jpg">
-        <img src = "/texture/ny.jpg">
-        <img src = "/texture/nz.jpg">
-        <img src = "/texture/px.jpg">
-        <img src = "/texture/py.jpg">
-        <img src = "/texture/pz.jpg">
-
-    </body>
+		<button id="myButton">a</button>
+	</body>
 </html>
