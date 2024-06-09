@@ -38,7 +38,7 @@ export class InputController {
         }
 
     }
-    
+
     _onMouseUp(event) {
         switch(event.button) {
             case 0: {
@@ -72,7 +72,7 @@ export class InputController {
     }
 
     key(keyCode) {
-        return this._keys[keyCode];
+        return this._keys[keyCode] || false;
     }
 
     update(dt) {

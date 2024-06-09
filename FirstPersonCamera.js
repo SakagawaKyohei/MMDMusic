@@ -16,6 +16,7 @@ export class FirstPersonCamera {
         this._updateCamera(dt);
         this._updateTranslation(dt);
         this._input.update(dt);
+        //console.log(this._translation);
     }
 
     _updateCamera(dt) {
@@ -37,7 +38,7 @@ export class FirstPersonCamera {
 
         const forwardVel = (this._input.key(KEYS.w) ? 1: 0) + (this._input.key(KEYS.s) ? -1 : 0); 
         const strafeVel = (this._input.key(KEYS.a) ? 1: 0) + (this._input.key(KEYS.d) ? -1 : 0); 
-        console.log(forwardVel, strafeVel);
+        //console.log(forwardVel, strafeVel);
 
         // Get camera's forward direction
         const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(this._rotation);

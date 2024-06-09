@@ -1,6 +1,7 @@
  <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<title>Three.js MMDLoader app Walk</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>My first three.js app</title>
@@ -19,8 +20,28 @@
         <script src="OrbitControls.js"></script>
 		<script type="module" src="./InputController.js"></script>
 		<script type="module" src="./FirstPersonCamera.js"></script>
-     
+       <div id="something">
+            <label for="controlSelect">Choose a control:</label>
+            <select id="controlSelect" name="controlSelect">
+                <option value="camera">Camera Control</option>
+                <option value="miku">Miku Control</option>
+            </select>
+        </div>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/build/three.js"></script>
+
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/libs/mmdparser.min.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/libs/ammo.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/loaders/TGALoader.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/loaders/MMDLoader.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/effects/OutlineEffect.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/animation/CCDIKSolver.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/animation/MMDPhysics.js"></script>
+
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/controls/OrbitControls.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/Detector.js"></script>
+		<script type="module" src='./index.js'></script>
 		<button id="myButton">a</button>
 	</body>
 </html>
