@@ -226,9 +226,7 @@ function update_1(thing) {
 const clock=new THREE2.Clock()
 const changeViewButton = document.querySelector("#change-view-button");
 
-changeViewButton.addEventListener("click", (event) => {
-    console.log("TODO: change the POV");
-});
+
 
 
 const loader1 = new MMDLoader();
