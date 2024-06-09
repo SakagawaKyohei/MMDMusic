@@ -1,19 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<title>Three.js MMDLoader app Walk</title>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>My first three.js app</title>
-        <button id="change-view-button">Change View</button>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
-			body { margin: 0; cursor: none}
-            
-
-		</style>
+            #controlSelect {
+                position: relative;
+                z-index: 1000; /* High value to ensure it is on top */
+            }
+        </style>
 	</head>
+
 	<body>
+		<!-- <div id="info"> -->
+		<!-- <a href="http://threejs.org" target="_blank">three.js</a> - MMDLoader app Walk<br /> -->
+		<!-- <a href="https://github.com/takahirox/MMDLoader-app#readme" target="_blank">MMD Assets license</a><br /> -->
+		<!-- Copyright -->
+		<!-- <a href="http://threejs.org" target="_blank">three.js</a> -->
+		<!-- <a href="http://www.geocities.jp/higuchuu4/index_e.htm" target="_blank">Model Data</a> -->
+		<!-- <a href="http://www.nicovideo.jp/mylist/1713647" target="_blank">Motion Data</a> -->
+		<!-- <a href="http://nicomas.main.jp/mmddata/" target="_blank">Motion/Pose Data</a> -->
+		<!-- </div> -->
+
+		<!-- <div id="howtoplay"> -->
+		<!-- How to play<br /> -->
+		<!-- <br /> -->
+		<!-- Up : Move forward<br /> -->
+		<!-- Left : Rotate left<br /> -->
+		<!-- Right : Rotate right<br /> -->
+		<!-- Shift : Run<br /> -->
+		<!-- Mouse drag/wheel : Camera<br /> -->
+		<!-- Space : Reset Miku position<br /> -->
+		<!-- </div> -->
+        <div id="something">
+            <label for="controlSelect">Choose a control:</label>
+            <select id="controlSelect" name="controlSelect">
+                <option value="camera">Camera Control</option>
+                <option value="miku">Miku Control</option>
+            </select>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/build/three.js"></script>
+
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/libs/mmdparser.min.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/libs/ammo.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/loaders/TGALoader.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/loaders/MMDLoader.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/effects/OutlineEffect.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/animation/CCDIKSolver.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/animation/MMDPhysics.js"></script>
+
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/controls/OrbitControls.js"></script>
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/Detector.js"></script>
+
 		<script type="module" src="./InputController.js"></script>
 		<script type="module" src="./FirstPersonCamera.js"></script>
-		<script type="module" src="./main.js"></script>
+		<script type="module" src='./index.js'></script>
 	</body>
 </html>
