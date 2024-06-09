@@ -2,6 +2,8 @@
 import * as THREE2 from 'three';
 import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader.js'; 
 import { MMDAnimationHelper } from 'three/addons/animation/MMDAnimationHelper.js';
+import {FirstPersonCamera} from './FirstPersonCamera.js';
+import {FirstPersonControls} from 'three/addons/controls/FirstPersonControls';
 var renderer = new THREE2.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
@@ -222,6 +224,11 @@ function update_1(thing) {
 }
 
 const clock=new THREE2.Clock()
+const changeViewButton = document.querySelector("#change-view-button");
+
+changeViewButton.addEventListener("click", (event) => {
+    console.log("TODO: change the POV");
+});
 
 
 const loader1 = new MMDLoader();
@@ -381,12 +388,14 @@ var scene = init();
 
 
 
+const firstPersonCamera = new FirstPersonCamera(camera);
 function animate1() {
     requestAnimationFrame(animate1); // Thêm dòng này để loop animation
    
 	helper.update( clock.getDelta() );
 
     renderer.render(scene, camera);
+        firstPersonCamera.update(clock.getDelta());
 }
 // var button = document.getElementById("myButton");
 
