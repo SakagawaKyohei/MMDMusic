@@ -461,11 +461,11 @@ function init2() {
 
     var urls = [
 
-        path + 'px' + format, path + 'nx' + format,
+        path + 'px_2' + format, path + 'nx_2' + format,
 
-        path + 'py' + format, path + 'ny' + format,
+        path + 'py_2' + format, path + 'ny_2' + format,
 
-        path + 'pz' + format, path + 'nz' + format
+        path + 'pz_2' + format, path + 'nz_2' + format
 
     ];
 
@@ -481,11 +481,11 @@ function init2() {
 
     var loader = new THREE2.TextureLoader();
 
-    planeMaterial.map = loader.load('/texture/checkerboard.jpg');
+    planeMaterial.map = loader.load('/texture/checkerboard_2.jpg');
 
-    planeMaterial.bumpMap = loader.load('/texture/checkerboard.jpg');
+    planeMaterial.bumpMap = loader.load('/texture/checkerboard_2.jpg');
 
-    planeMaterial.roughnessMap = loader.load('/texture/checkerboard.jpg');
+    planeMaterial.roughnessMap = loader.load('/texture/checkerboard_2.jpg');
 
     planeMaterial.bumpScale = 0.01;
 
@@ -497,7 +497,7 @@ function init2() {
 
 
 
-    sphereMaterial.roughnessMap = loader.load('/texture/fingerprint.jpg');
+    sphereMaterial.roughnessMap = loader.load('/texture/fingerprint_2.jpg');
 
     sphereMaterial.roughness = 0.06;
 
@@ -507,7 +507,7 @@ function init2() {
 
 
 
-    sphereMaterial1.roughnessMap = loader.load('/texture/fingerprint.jpg');
+    sphereMaterial1.roughnessMap = loader.load('/texture/fingerprint_2.jpg');
 
     sphereMaterial1.roughness = 0.06;
 
@@ -517,7 +517,7 @@ function init2() {
 
 
 
-    sphereMaterial2.roughnessMap = loader.load('/texture/fingerprint.jpg');
+    sphereMaterial2.roughnessMap = loader.load('/texture/fingerprint_2.jpg');
 
     sphereMaterial2.roughness = 0.06;
 
@@ -527,7 +527,7 @@ function init2() {
 
 
 
-    sphereMaterial3.roughnessMap = loader.load('/texture/fingerprint.jpg');
+    sphereMaterial3.roughnessMap = loader.load('/texture/fingerprint_2.jpg');
 
     sphereMaterial3.roughness = 0.06;
 
@@ -537,25 +537,25 @@ function init2() {
 
 
 
-    boxMaterial.normalMap = loader.load('/texture/glass.jpg');
+    boxMaterial.normalMap = loader.load('/texture/glass_2.jpg');
 
     boxMaterial.envMap = reflectionCube;
 
-    boxMaterial1.normalMap = loader.load('/texture/glass.jpg');
+    boxMaterial1.normalMap = loader.load('/texture/glass_2.jpg');
 
     boxMaterial1.envMap = reflectionCube;
 
-    boxMaterial2.normalMap = loader.load('/texture/glass.jpg');
+    boxMaterial2.normalMap = loader.load('/texture/glass_2.jpg');
 
     boxMaterial2.envMap = reflectionCube;
 
-    boxMaterial3.normalMap = loader.load('/texture/glass.jpg');
+    boxMaterial3.normalMap = loader.load('/texture/glass_2.jpg');
 
     boxMaterial3.envMap = reflectionCube;
 
 
 
-    icoMaterial.roughnessMap = loader.load('/texture/water.jpg');
+    icoMaterial.roughnessMap = loader.load('/texture/water_2.jpg');
 
     icoMaterial.metalness = 0.1;
 
