@@ -335,6 +335,37 @@ function getMaterial(type, color){
     }
     return selectedMaterial;
 }
+loader1.loadWithAnimation(
+    "pmd/miku_v2.pmd",
+    "vmd/wavefile_v2.vmd",
+    function(mmd) {
+        helper.add(mmd.mesh, {
+            animation: mmd.animation,
+            physics: true
+        });
+
+        scene.add(mmd.mesh);
+        // Lưu trữ tham chiếu đến mô hình 3D mới
+        currentModel = mmd.mesh;
+        // Load âm thanh
+        new THREE2.AudioLoader().load(
+            'examples_models_mmd_audios_wavefile_short.mp3',
+            function(buffer) {
+                const listener = new THREE2.AudioListener();
+                const audio = new THREE2.Audio(listener).setBuffer(buffer);
+                listener.position.z = 1;
+                scene.add(audio);
+                scene.add(listener);
+            }
+        );
+    },
+    function(xhr) {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    function(error) {
+        console.log(error);
+    }
+);
 
 var scene = init();
 
@@ -350,47 +381,41 @@ function animate1() {
 
     renderer.render(scene, camera);
     firstPersonCamera.update(clock.getDelta());
-    if ( physicss !== undefined ) physicss.update( delta );
 }
-var button = document.getElementById("myButton");
 
-let count=0;
-// Thêm sự kiện click vào button
-button.addEventListener("click", function() {
-    count=count+1;
- // Assuming you have a reference to your scene called 'scene'
-// Get the last object added to the scene
-if(count>1)
-    {
-        const lastObject = scene.children[scene.children.length - 1];
+let select1="pmd/miku_v2.vmd";
+let select2="vmd/wavefile_v2.vmd";
 
-        // Remove the last object from the scene
-        scene.remove(lastObject);
-    }
+document.getElementById("mySelect").addEventListener("change", function() {
+    select1 = this.value;
+});
+document.getElementById("mySelect1").addEventListener("change", function() {
+    select2 = this.value;
+});
 
-
-    // Thực thi một hành động nào đó khi button được click
-    alert("Button clicked!");
-
-    // Thay đổi giá trị của biến miku
-    if (miku === "miku_v2.pmd") {
-        miku = "rin.pmd";
-    } else {
-        miku = "miku_v2.pmd";
-    }
-    console.log(miku);
-
-
-    // Load mô hình 3D mới
+document.getElementById("mybutton").addEventListener("click",function(){
+    const lastObject = scene.children[scene.children.length - 1];
+    
+    // Remove the last object from the scene
+    scene.remove(lastObject);
+    
+    
+        // Thực thi một hành động nào đó khi button được click
+        // alert("Button clicked!");
+    
+        // Thay đổi giá trị của biến miku
+    
+    
+        // Load mô hình 3D mới
     loader1.loadWithAnimation(
-        miku,
-        "wavefile_v2.vmd",
+        select1,
+        select2,
         function(mmd) {
             helper.add(mmd.mesh, {
                 animation: mmd.animation,
                 physics: true
             });
- 
+     
             scene.add(mmd.mesh);
             // Lưu trữ tham chiếu đến mô hình 3D mới
             currentModel = mmd.mesh;
@@ -413,7 +438,8 @@ if(count>1)
             console.log(error);
         }
     );
-});
+})
 
+  
 
 animate1();
