@@ -3,7 +3,6 @@ import * as THREE2 from 'three';
 import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader.js'; 
 import { MMDAnimationHelper } from 'three/addons/animation/MMDAnimationHelper.js';
 import {FirstPersonCamera} from './FirstPersonCamera.js';
-import {FirstPersonControls} from 'three/addons/controls/FirstPersonControls';
 var renderer = new THREE2.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
@@ -669,7 +668,7 @@ function init2() {
 
     var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-    update(renderer, scene, camera, controls);
+    // update(renderer, scene, camera, controls);
 
 
 
@@ -927,17 +926,16 @@ document.getElementById("mybutton").addEventListener("click",function(){
 
 })
 
-document.getElementById("mybutton1").addEventListener("click",function(){
-
-    while(scene.children.length > 0){ 
-        scene.remove(scene.children[0]); 
-    }
-
-})
-document.getElementById("mybutton2").addEventListener("click",function(){
-    scene=init(); 
-
-})
+document.getElementById("stage").addEventListener("change", function() {
+    if(this.value=="s1")
+        {
+            scene=init();
+        }
+        else{
+            scene=init2();
+            console.log("aaa")
+        }
+});
   
 
 animate1();
