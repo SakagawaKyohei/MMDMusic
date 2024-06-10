@@ -396,16 +396,9 @@ document.getElementById("mybutton").addEventListener("click",function(){
             // Lưu trữ tham chiếu đến mô hình 3D mới
             currentModel = mmd.mesh;
             // Load âm thanh
-            new THREE2.AudioLoader().load(
-                'examples_models_mmd_audios_wavefile_short.mp3',
-                function(buffer) {
-                    const listener = new THREE2.AudioListener();
-                    const audio = new THREE2.Audio(listener).setBuffer(buffer);
-                    listener.position.z = 1;
-                    scene.add(audio);
-                    scene.add(listener);
-                }
-            );
+           
+    
+
         },
         function(xhr) {
             console.log((xhr.loaded / xhr.total * 100) + '% loaded');
@@ -414,6 +407,25 @@ document.getElementById("mybutton").addEventListener("click",function(){
             console.log(error);
         }
     );
+    setTimeout(() => {
+        new THREE2.AudioLoader().load(
+            'wavefile_short.mp3',
+            
+             function ( buffer ) {
+    
+                const listener = new THREE2.AudioListener();
+                const audio = new THREE2.Audio( listener ).setBuffer( buffer );
+    
+                listener.position.z = 1;
+    
+                scene.add( audio );
+                scene.add( listener );
+    audio.play();
+            }
+    
+        );
+      }, 6350);
+
 })
 
   
