@@ -215,6 +215,488 @@ function init() {
     return scene;
 
 }
+
+
+function init2() {
+
+    var scene = new THREE2.Scene();
+
+    var gui = new dat.GUI();
+
+
+
+    var sphereMaterial = getMaterial('standard', 'rgb(255, 4, 255)');
+
+    var sphereMaterial1 = getMaterial('standard', 'rgb(255, 106, 106)');
+
+    var sphereMaterial2 = getMaterial('standard', 'rgb(255, 215, 0)');
+
+    var sphereMaterial3 = getMaterial('standard', 'rgb(84, 255, 159)');
+
+    var sphere = getSphere(sphereMaterial, 3, 24);
+
+    var sphere1 = getSphere(sphereMaterial1, 3, 24);
+
+    var sphere2 = getSphere(sphereMaterial2, 3, 24);
+
+    var sphere3 = getSphere(sphereMaterial3, 3, 24);
+
+    var sphere4 = getSphere(sphereMaterial1, 18, 24);
+
+
+
+    var cyMaterial = getMaterial('standard', 'rgb(110, 127, 120)');
+
+    var cylinder = getCylinder(cyMaterial, 20, 20, 10, 40)
+
+
+
+    var boxMaterial = getMaterial('standard', 'rgb(27, 79, 147)');
+
+    var boxMaterial1 = getMaterial('standard', 'rgb(255, 255, 255)');
+
+    var boxMaterial2 = getMaterial('standard', 'rgb(238, 130, 238)');
+
+    var boxMaterial3 = getMaterial('standard', 'rgb(255, 255, 255)');
+
+    var box = getBox(boxMaterial, 15, 45, 15);
+
+    var box1 = getBox(boxMaterial1, 15, 10, 15);
+
+    var box2 = getBox(boxMaterial2, 15, 20, 15);
+
+    var box3 = getBox(boxMaterial3, 15, 30, 15);
+
+
+
+    var icoMaterial = getMaterial('standard', 'rgb(220, 20, 60)');
+
+    var ico1 = getIcosahedron(icoMaterial, 4);
+
+    var ico6 = getIcosahedron(icoMaterial, 4);
+
+    var ico2 = getIcosahedron(icoMaterial, 4);
+
+    var ico5 = getIcosahedron(icoMaterial, 4);
+
+    var ico3 = getIcosahedron(icoMaterial, 4);
+
+    var ico4 = getIcosahedron(icoMaterial, 4);
+
+
+
+    var planeMaterial = getMaterial('standard', 'rgb(255, 255, 255)');
+
+    var plane = getPlane(planeMaterial, 200);
+
+
+
+    var lightLeft = getSpotLight(7000, 'rgb(255, 0, 0)');
+
+    var lightRight = getSpotLight(7000, 'rgb(255, 255, 0)');
+
+    var directionalLight = getDirectionalLight(10);
+
+
+
+    sphere.position.y = sphere.geometry.parameters.radius;
+
+    sphere.position.x = -35;
+
+    sphere.position.z = -18;
+
+
+
+    sphere2.position.y = 9;
+
+    sphere2.position.x = -35;
+
+    sphere2.position.z = -18;
+
+
+
+    sphere1.position.x = -35;
+
+    sphere1.position.y = 15;
+
+    sphere1.position.z = -18;
+
+
+
+    sphere3.position.x = -35;
+
+    sphere3.position.y = 21;
+
+    sphere3.position.z = -18;
+
+
+
+    sphere4.position.x = -60;
+
+    sphere4.position.y = sphere4.geometry.parameters.radius;
+
+    sphere4.position.z = -90;
+
+
+
+    plane.rotation.x = Math.PI/2;
+
+
+
+    box.position.x = -50;
+
+    box.position.y = 22.6;
+
+    box.position.z = -60;
+
+
+
+    box1.position.x = -20;
+
+    box1.position.y = 5.2;
+
+    box1.position.z = -60;
+
+
+
+    box2.position.x = 20;
+
+    box2.position.y = 10.2;
+
+    box2.position.z = -60;
+
+
+
+    box3.position.x = 50;
+
+    box3.position.y = 15.1;
+
+    box3.position.z = -60;
+
+
+
+    cylinder.position.x = -65;
+
+    cylinder.position.y = 6;
+
+    cylinder.position.z = -30;
+
+
+
+    ico1.position.x = -70;
+
+    ico1.position.y = 6;
+
+    ico1.position.z = 10;
+
+    ico6.position.x = 70;
+
+    ico6.position.y = 6;
+
+    ico6.position.z = 10;
+
+
+
+    ico2.position.x = -45;
+
+    ico2.position.y = 6;
+
+    ico2.position.z = 30;
+
+    ico5.position.x = 45;
+
+    ico5.position.y = 6;
+
+    ico5.position.z = 30;
+
+
+
+    ico3.position.x = -22;
+
+    ico3.position.y = 6;
+
+    ico3.position.z = 50;
+
+    ico4.position.x = 22;
+
+    ico4.position.y = 6;
+
+    ico4.position.z = 50;
+
+
+
+    
+
+    lightLeft.position.x = -36;
+
+    lightLeft.position.y = 10;
+
+    lightLeft.position.z = 30;
+
+
+
+    lightRight.position.x = 50;
+
+    lightRight.position.y = 8;
+
+    lightRight.position.z = -36;
+
+
+
+    directionalLight.position.x = 9;
+
+    directionalLight.position.y = -25;
+
+    directionalLight.position.z = 15;
+
+    directionalLight.intensity = 6;
+
+
+
+    //load the cube map
+
+    var path = '/texture/'
+
+    var format = '.jpg';
+
+    var urls = [
+
+        path + 'px' + format, path + 'nx' + format,
+
+        path + 'py' + format, path + 'ny' + format,
+
+        path + 'pz' + format, path + 'nz' + format
+
+    ];
+
+    var reflectionCube = new THREE2.CubeTextureLoader().load(urls);
+
+    reflectionCube.format = THREE2.RGBAFormat;
+
+
+
+    scene.background = reflectionCube;
+
+
+
+    var loader = new THREE2.TextureLoader();
+
+    planeMaterial.map = loader.load('/texture/checkerboard.jpg');
+
+    planeMaterial.bumpMap = loader.load('/texture/checkerboard.jpg');
+
+    planeMaterial.roughnessMap = loader.load('/texture/checkerboard.jpg');
+
+    planeMaterial.bumpScale = 0.01;
+
+    planeMaterial.metalness = 1;
+
+    planeMaterial.roughness = 1;
+
+    planeMaterial.envMap = reflectionCube;
+
+
+
+    sphereMaterial.roughnessMap = loader.load('/texture/fingerprint.jpg');
+
+    sphereMaterial.roughness = 0.06;
+
+    sphereMaterial.metalness = 0.5;
+
+    sphereMaterial.envMap = reflectionCube;
+
+
+
+    sphereMaterial1.roughnessMap = loader.load('/texture/fingerprint.jpg');
+
+    sphereMaterial1.roughness = 0.06;
+
+    sphereMaterial1.metalness = 0.5;
+
+    sphereMaterial1.envMap = reflectionCube;
+
+
+
+    sphereMaterial2.roughnessMap = loader.load('/texture/fingerprint.jpg');
+
+    sphereMaterial2.roughness = 0.06;
+
+    sphereMaterial2.metalness = 0.5;
+
+    sphereMaterial2.envMap = reflectionCube;
+
+
+
+    sphereMaterial3.roughnessMap = loader.load('/texture/fingerprint.jpg');
+
+    sphereMaterial3.roughness = 0.06;
+
+    sphereMaterial3.metalness = 0.5;
+
+    sphereMaterial3.envMap = reflectionCube;
+
+
+
+    boxMaterial.normalMap = loader.load('/texture/glass.jpg');
+
+    boxMaterial.envMap = reflectionCube;
+
+    boxMaterial1.normalMap = loader.load('/texture/glass.jpg');
+
+    boxMaterial1.envMap = reflectionCube;
+
+    boxMaterial2.normalMap = loader.load('/texture/glass.jpg');
+
+    boxMaterial2.envMap = reflectionCube;
+
+    boxMaterial3.normalMap = loader.load('/texture/glass.jpg');
+
+    boxMaterial3.envMap = reflectionCube;
+
+
+
+    icoMaterial.roughnessMap = loader.load('/texture/water.jpg');
+
+    icoMaterial.metalness = 0.1;
+
+    icoMaterial.envMap = reflectionCube;
+
+
+
+    var maps = ['map', 'bumpMap', 'roughnessMap'];
+
+    maps.forEach(function(mapName) {
+
+        var texture = planeMaterial[mapName];
+
+        texture.wrapS = THREE2.RepeatWrapping;
+
+        texture.wrapT = THREE2.RepeatWrapping;
+
+        texture.repeat.set(15, 15);
+
+    });
+
+    
+
+    var folder1 = gui.addFolder('spotlight_1');
+
+    folder1.add(lightLeft, 'intensity', 0, 10000);
+
+    folder1.add(lightLeft.position, 'x', -100, 100);
+
+    folder1.add(lightLeft.position, 'y', -80, 80);
+
+    folder1.add(lightLeft.position, 'z', -100, 100);
+
+
+
+    var folder2 = gui.addFolder('spotlight_2');
+
+    folder2.add(lightRight, 'intensity', 0, 10000);
+
+    folder2.add(lightRight.position, 'x', -100, 100);
+
+    folder2.add(lightRight.position, 'y', -80, 80);
+
+    folder2.add(lightRight.position, 'z', -100, 100);
+
+
+
+    var folder3 = gui.addFolder('directional_light');
+
+    folder3.add(directionalLight, 'intensity', 0, 10);
+
+    folder3.add(directionalLight.position, 'x', -40, 40);
+
+    folder3.add(directionalLight.position, 'y', -40, 40);
+
+    folder3.add(directionalLight.position, 'z', -40, 40);
+
+    
+
+    var folder4 = gui.addFolder('materials');
+
+    folder4.add(planeMaterial, 'roughness', -1, 1);
+
+    folder4.add(planeMaterial, 'metalness', -1, 1);
+
+    folder4.open();
+
+
+
+    scene.add(sphere);
+
+    scene.add(sphere1);
+
+    scene.add(sphere2);
+
+    scene.add(sphere3);
+
+    scene.add(sphere4);
+
+    scene.add(box);
+
+    scene.add(box1);
+
+    scene.add(box2);
+
+    scene.add(box3);
+
+    //scene.add(cylinder);
+
+    scene.add(ico6);
+
+    scene.add(ico1);
+
+    scene.add(ico2);
+
+    scene.add(ico5);
+
+    scene.add(ico3);
+
+    scene.add(ico4);
+
+    scene.add(plane);
+
+    scene.add(lightLeft);
+
+    scene.add(lightRight);
+
+    scene.add(directionalLight);
+
+    
+
+    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+    update(renderer, scene, camera, controls);
+
+
+
+    animate2(scene, camera, renderer, sphere4);
+
+
+
+    animate(scene, camera, renderer, ico1);
+
+    animate(scene, camera, renderer, ico2);
+
+    animate(scene, camera, renderer, ico3);
+
+    animate(scene, camera, renderer, ico4);
+
+    animate(scene, camera, renderer, ico5);
+
+    animate(scene, camera, renderer, ico6);
+
+
+
+    return scene;
+
+
+
+}
+
 function update(renderer, scene, camera, controls) {
     renderer.render(scene, camera);
 
@@ -249,6 +731,23 @@ function animate(scene, camera, renderer, thing) {
     });
 }
 
+// Gọi hàm render
+
+var step = 0;
+
+function animate2(scene, camera, renderer, thing) {
+
+  step += 0.04;
+
+  thing.position.x = 20 + 30 * Math.cos(step);
+
+  thing.position.y = 20 + 25 * Math.abs(Math.sin(step));
+
+  requestAnimationFrame(function () {animate2(scene, camera, renderer, thing);});
+
+  renderer.render(scene, camera);
+
+}
 
 function getSpotLight(intensity, color) {
     color = color === undefined ? 'rgb(255, 255, 255)' : color;
