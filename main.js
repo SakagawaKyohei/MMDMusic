@@ -335,44 +335,13 @@ function getMaterial(type, color){
     }
     return selectedMaterial;
 }
-loader1.loadWithAnimation(
-    "pmd/miku_v2.pmd",
-    "vmd/wavefile_v2.vmd",
-    function(mmd) {
-        helper.add(mmd.mesh, {
-            animation: mmd.animation,
-            physics: true
-        });
-
-        scene.add(mmd.mesh);
-        // Lưu trữ tham chiếu đến mô hình 3D mới
-        currentModel = mmd.mesh;
-        // Load âm thanh
-        new THREE2.AudioLoader().load(
-            'examples_models_mmd_audios_wavefile_short.mp3',
-            function(buffer) {
-                const listener = new THREE2.AudioListener();
-                const audio = new THREE2.Audio(listener).setBuffer(buffer);
-                listener.position.z = 1;
-                scene.add(audio);
-                scene.add(listener);
-            }
-        );
-    },
-    function(xhr) {
-        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-    },
-    function(error) {
-        console.log(error);
-    }
-);
 
 var scene = init();
 
 
 //bao 
 
-
+let count=0;
 const firstPersonCamera = new FirstPersonCamera(camera);
 function animate1() {
     requestAnimationFrame(animate1); // Thêm dòng này để loop animation
@@ -383,7 +352,7 @@ function animate1() {
     firstPersonCamera.update(clock.getDelta());
 }
 
-let select1="pmd/miku_v2.vmd";
+let select1="pmd/miku_v2.pmd";
 let select2="vmd/wavefile_v2.vmd";
 
 document.getElementById("mySelect").addEventListener("change", function() {
@@ -394,10 +363,17 @@ document.getElementById("mySelect1").addEventListener("change", function() {
 });
 
 document.getElementById("mybutton").addEventListener("click",function(){
-    const lastObject = scene.children[scene.children.length - 1];
+    if(count>0)
+        {
+            const lastObject = scene.children[scene.children.length - 1];
     
-    // Remove the last object from the scene
-    scene.remove(lastObject);
+            // Remove the last object from the scene
+            scene.remove(lastObject);
+            
+        }
+        count=count+1;
+        console.log(select1+select2)
+
     
     
         // Thực thi một hành động nào đó khi button được click
