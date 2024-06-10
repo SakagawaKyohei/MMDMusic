@@ -861,6 +861,22 @@ document.getElementById("mySelect1").addEventListener("change", function() {
 });
 
 document.getElementById("mybutton").addEventListener("click",function(){
+    if(s=="s1")
+        {
+            while(scene.children.length > 0){ 
+                scene.remove(scene.children[0]); 
+            }
+        
+            scene=init();
+        }
+        else{
+            while(scene.children.length > 0){ 
+                scene.remove(scene.children[0]); 
+            }
+        
+            scene=init2();
+            console.log("aaa")
+        }
     if(count>0)
         {
             const lastObject = scene.children[scene.children.length - 1];
@@ -925,16 +941,9 @@ document.getElementById("mybutton").addEventListener("click",function(){
       }, 6350);
 
 })
-
+let s;
 document.getElementById("stage").addEventListener("change", function() {
-    if(this.value=="s1")
-        {
-            scene=init();
-        }
-        else{
-            scene=init2();
-            console.log("aaa")
-        }
+   s=this.value
 });
   
 
