@@ -428,6 +428,17 @@ document.getElementById("mybutton").addEventListener("click",function(){
 
 })
 
+document.getElementById("mybutton1").addEventListener("click",function(){
+
+    while(scene.children.length > 0){ 
+        scene.remove(scene.children[0]); 
+    }
+
+})
+document.getElementById("mybutton2").addEventListener("click",function(){
+    scene=init(); 
+
+})
   
 
 animate1();
