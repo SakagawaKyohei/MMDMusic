@@ -7,6 +7,7 @@ var renderer = new THREE2.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 document.getElementById('webgl').appendChild(renderer.domElement);
+
  var camera = new THREE2.PerspectiveCamera(
         45,
         window.innerWidth/window.innerHeight,
@@ -18,9 +19,10 @@ document.getElementById('webgl').appendChild(renderer.domElement);
     camera.position.z = 100;
 
     camera.lookAt(new THREE2.Vector3(0, 0, 0));
+    
 function init() {
+    gui = new dat.GUI();
     var scene = new THREE2.Scene();
-    var gui = new dat.GUI();
 
     var sphereMaterial = getMaterial('standard', 'rgb(255, 4, 255)');
     var sphereMaterial1 = getMaterial('standard', 'rgb(255, 0, 0)');
@@ -214,13 +216,12 @@ function init() {
     return scene;
 
 }
-
+let gui
 
 function init2() {
-
+    gui = new dat.GUI();
     var scene = new THREE2.Scene();
 
-    var gui = new dat.GUI();
 
 
 
@@ -861,6 +862,7 @@ document.getElementById("mySelect1").addEventListener("change", function() {
 });
 
 document.getElementById("mybutton").addEventListener("click",function(){
+gui.destroy();
     if(s=="s1")
         {
             while(scene.children.length > 0){ 
