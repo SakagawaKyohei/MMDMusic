@@ -1,5 +1,6 @@
 // //thanh
 import * as THREE2 from 'three';
+import {PointerLockFirstPersonCamera} from './PointerLockFirstPersonCamera.js';
 import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader.js'; 
 import { MMDAnimationHelper } from 'three/addons/animation/MMDAnimationHelper.js';
 import {FirstPersonCamera} from './FirstPersonCamera.js';
@@ -841,7 +842,7 @@ var scene = init();
 //bao 
 
 let count=0;
-const firstPersonCamera = new FirstPersonCamera(camera);
+const firstPersonCamera = new PointerLockFirstPersonCamera(camera, renderer);
 function animate1() {
     requestAnimationFrame(animate1); // Thêm dòng này để loop animation
    
