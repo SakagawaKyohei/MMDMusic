@@ -1,4 +1,4 @@
-import * as THREE_NPM from 'three';
+//import * as THREE from 'three';
 import {InputController} from './InputController'
 import {FirstPersonCamera} from './FirstPersonCamera.js';
 import {PointerLockInputController} from './PointerLockInputController'
@@ -10,7 +10,7 @@ const CONTROL_STATES = {
     MIKU: 1, 
 }
 
-console.log(THREE_NPM);
+//console.log(THREE);
 console.log(THREE);
 
 let controlState = CONTROL_STATES.CAMERA;
@@ -94,7 +94,8 @@ var modelParams = [
 var cameraParams = [
     {
         name: 'camera',
-        position: new THREE.Vector3( 0, 0, -25 )
+        //position: new THREE.Vector3( 0, 0, -25 )
+        position: new THREE.Vector3( 2, 8, 100 )
     }
 ];
 
@@ -160,11 +161,300 @@ var onError = function ( xhr ) {
 
 let firstPersonCamera;
 
-function onKeyDown(event) {
-    // Handle key down
-    if (event.key === 'Control') {
-        document.exitPointerLock();
+
+function getReflectionCube() {
+    const path = '/texture/';
+    const format = '.jpg';
+    const urls = [
+        path + 'px' + format, path + 'nx' + format,
+        path + 'py' + format, path + 'ny' + format,
+        path + 'pz' + format, path + 'nz' + format
+    ];
+    const reflectionCube = new THREE.CubeTextureLoader().load(urls);
+    reflectionCube.format = THREE.RGBAFormat;
+    return reflectionCube;
+}
+
+// function animateScene(scene, camera, renderer) {
+//     function animate() {
+//         requestAnimationFrame(animate);
+//         updateScene(scene);
+//         renderer.render(scene, camera);
+//     }
+//     animate();
+// }
+//
+// function updateScene(scene) {
+//     scene.children.forEach((child) => {
+//         if (child instanceof THREE.Mesh && child.geometry instanceof THREE.IcosahedronGeometry) {
+//             child.rotation.x += 0.01;
+//             child.rotation.y += 0.1;
+//             child.rotation.z += 0.01;
+//         }
+//     });
+// }
+
+function getSpotLight(intensity, color = 'rgb(255, 255, 255)') {
+    const light = new THREE.SpotLight(color, intensity);
+    light.castShadow = true;
+    light.penumbra = 0.5;
+    light.shadow.mapSize.width = light.shadow.mapSize.height = 2048;
+    light.shadow.bias = 0.001;
+    return light;
+}
+
+function getDirectionalLight(intensity) {
+    const light = new THREE.DirectionalLight(0xffffff, intensity);
+    light.castShadow = true;
+    light.shadow.camera.left = light.shadow.camera.bottom = -10;
+    light.shadow.camera.right = light.shadow.camera.top = 10;
+    return light;
+}
+
+function getBox(material, w, h, d) {
+    const geometry = new THREE.BoxGeometry(w, h, d);
+    const obj = new THREE.Mesh(geometry, material);
+    obj.castShadow = true;
+    return obj;
+}
+
+function getSphere(material, size, segments) {
+    const geometry = new THREE.SphereGeometry(size, segments, segments);
+    const obj = new THREE.Mesh(geometry, material);
+    obj.castShadow = true;
+    return obj;
+}
+
+function getPlane(material, size) {
+    const geometry = new THREE.PlaneGeometry(size, size);
+    material.side = THREE.DoubleSide;
+    const obj = new THREE.Mesh(geometry, material);
+    obj.position.y = -15;
+    obj.receiveShadow = true;
+    return obj;
+}
+
+function getIcosahedron(material, size) {
+    const geometry = new THREE.IcosahedronGeometry(size);
+    return new THREE.Mesh(geometry, material);
+}
+
+function getCylinder(material, rTop, rBot, h, radialSegments) {
+    const geometry = new THREE.CylinderGeometry(rTop, rBot, h, radialSegments);
+    const obj = new THREE.Mesh(geometry, material);
+    obj.castShadow = true;
+    return obj;
+}
+
+function getMaterial(type, color) {
+    const materialOptions = { color: color || 'rgb(255, 255, 255)' };
+    switch (type) {
+        case 'basic':
+            return new THREE.MeshBasicMaterial(materialOptions);
+        case 'lambert':
+            return new THREE.MeshLambertMaterial(materialOptions);
+        case 'phong':
+            return new THREE.MeshPhongMaterial(materialOptions);
+        case 'standard':
+            return new THREE.MeshStandardMaterial(materialOptions);
+        default:
+            return new THREE.MeshBasicMaterial(materialOptions);
     }
+}
+
+let gui;
+const rotateThings = [];
+function addThingsToScene(scene)  {
+
+    var sphereMaterial = getMaterial('standard', 'rgb(255, 4, 255)');
+    var sphereMaterial1 = getMaterial('standard', 'rgb(255, 0, 0)');
+    var sphereMaterial2 = getMaterial('standard', 'rgb(110, 127, 120)');
+    var sphere = getSphere(sphereMaterial, 25, 24);
+    var sphere1 = getSphere(sphereMaterial1, 8, 24);
+    var sphere2 = getSphere(sphereMaterial2, 15, 24);
+
+    var cyMaterial = getMaterial('standard', 'rgb(110, 127, 120)');
+    var cylinder = getCylinder(cyMaterial, 20, 20, 10, 40)
+
+    var boxMaterial = getMaterial('lambert', 'rgb(0, 255, 255)');
+    var box = getBox(boxMaterial, 60, 15, 15);
+
+    var icoMaterial = getMaterial('phong', 'rgb(255, 255, 0)');
+    var ico1 = getIcosahedron(icoMaterial, 4);
+    var ico6 = getIcosahedron(icoMaterial, 4);
+    var ico2 = getIcosahedron(icoMaterial, 4);
+    var ico5 = getIcosahedron(icoMaterial, 4);
+    var ico3 = getIcosahedron(icoMaterial, 4);
+    var ico4 = getIcosahedron(icoMaterial, 4);
+
+    var planeMaterial = getMaterial('standard', 'rgb(255, 255, 255)');
+    var plane = getPlane(planeMaterial, 200);
+    console.log("plane: ", plane);
+
+    var lightLeft = getSpotLight(7000, 'rgb(255, 220, 180)');
+    var lightRight = getSpotLight(7000, 'rgb(255, 220, 180)');
+    var directionalLight = getDirectionalLight(10);
+
+    sphere.position.y = sphere.geometry.parameters.radius;
+    sphere.position.x = 68;
+    sphere.position.z = -60;
+    sphere2.position.y = 20;
+    sphere2.position.x = -65;
+    sphere2.position.z = -30;
+    sphere1.position.x = 14;
+    sphere1.position.y = 23;
+    sphere1.position.z = -60;
+    plane.rotation.x = Math.PI/2;
+    box.position.x = -5;
+    box.position.y = 7.6;
+    box.position.z = -60;
+    cylinder.position.x = -65;
+    cylinder.position.y = 6;
+    cylinder.position.z = -30;
+
+    ico1.position.x = -70;
+    ico1.position.y = 6;
+    ico1.position.z = 20;
+    ico6.position.x = 70;
+    ico6.position.y = 6;
+    ico6.position.z = 20;
+
+    ico2.position.x = -45;
+    ico2.position.y = 6;
+    ico2.position.z = 40;
+    ico5.position.x = 45;
+    ico5.position.y = 6;
+    ico5.position.z = 40;
+
+    ico3.position.x = -22;
+    ico3.position.y = 6;
+    ico3.position.z = 60;
+    ico4.position.x = 22;
+    ico4.position.y = 6;
+    ico4.position.z = 60;
+
+    
+    lightLeft.position.x = -32;
+    lightLeft.position.y = 10;
+    lightLeft.position.z = 8;
+
+    lightRight.position.x = 32;
+    lightRight.position.y = 10;
+    lightRight.position.z = 8;
+
+    directionalLight.position.x = 9;
+    directionalLight.position.y = 2.5;
+    directionalLight.position.z = 15;
+    directionalLight.intensity = 6;
+
+    //load the cube map
+    var path = '/texture/'
+    var format = '.jpg';
+    var urls = [
+        path + 'px' + format, path + 'nx' + format,
+        path + 'py' + format, path + 'ny' + format,
+        path + 'pz' + format, path + 'nz' + format
+    ];
+
+    var reflectionCube = new THREE.CubeTextureLoader().load(urls);
+    reflectionCube.format = THREE.RGBAFormat;
+
+    scene.background = reflectionCube;
+
+    var loader = new THREE.TextureLoader();
+    planeMaterial.map = loader.load('/texture/brick_diffuse.jpg');
+    planeMaterial.bumpMap = loader.load('/texture/brick_diffuse.jpg');
+    planeMaterial.roughnessMap = loader.load('/texture/brick_diffuse.jpg');
+    planeMaterial.bumpScale = 0.01;
+    planeMaterial.metalness = 1;
+    planeMaterial.roughness = 1;
+    planeMaterial.envMap = reflectionCube;
+
+    sphereMaterial.roughnessMap = loader.load('/texture/fingerprint.jpg');
+    sphereMaterial.roughness = 0.8;
+    sphereMaterial.metalness = 1;
+    sphereMaterial.envMap = reflectionCube;
+
+    sphereMaterial1.roughnessMap = loader.load('/texture/fingerprint.jpg');
+    sphereMaterial1.roughness = 0.06;
+    sphereMaterial1.metalness = 0.5;
+    sphereMaterial1.envMap = reflectionCube;
+
+    sphereMaterial2.roughnessMap = loader.load('/texture/fingerprint.jpg');
+    sphereMaterial2.roughness = 0.05;
+    sphereMaterial2.metalness = 1;
+    sphereMaterial2.envMap = reflectionCube;
+
+    boxMaterial.normalMap = loader.load('/texture/water.jpg');
+    boxMaterial.envMap = reflectionCube;
+
+    icoMaterial.roughnessMap = loader.load('/texture/water.jpg');
+    icoMaterial.metalness = 0.1;
+    icoMaterial.envMap = reflectionCube;
+
+    var maps = ['map', 'bumpMap', 'roughnessMap'];
+    maps.forEach(function(mapName) {
+        var texture = planeMaterial[mapName];
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(15, 15);
+    });
+    
+
+    gui = new dat.GUI();
+    var folder1 = gui.addFolder('spotlight_1');
+    folder1.add(lightLeft, 'intensity', 0, 10000);
+    folder1.add(lightLeft.position, 'x', -100, 100);
+    folder1.add(lightLeft.position, 'y', -80, 80);
+    folder1.add(lightLeft.position, 'z', -100, 100);
+
+    var folder2 = gui.addFolder('spotlight_2');
+    folder2.add(lightRight, 'intensity', 0, 10000);
+    folder2.add(lightRight.position, 'x', -100, 100);
+    folder2.add(lightRight.position, 'y', -80, 80);
+    folder2.add(lightRight.position, 'z', -100, 100);
+
+    var folder3 = gui.addFolder('directional_light');
+    folder3.add(directionalLight, 'intensity', 0, 10);
+    folder3.add(directionalLight.position, 'x', -40, 40);
+    folder3.add(directionalLight.position, 'y', -40, 40);
+    folder3.add(directionalLight.position, 'z', -40, 40);
+
+    var folder4 = gui.addFolder('materials');
+    folder4.add(sphereMaterial, 'roughness', -1, 1);
+    folder4.add(sphereMaterial, 'metalness', -1, 1);
+    folder4.add(sphereMaterial1, 'roughness', -1, 1);
+    folder4.add(sphereMaterial1, 'metalness', -1, 1);
+    folder4.add(sphereMaterial2, 'roughness', -1, 1);
+    folder4.add(sphereMaterial2, 'metalness', -1, 1);
+    folder4.add(planeMaterial, 'roughness', -1, 1);
+    folder4.add(planeMaterial, 'metalness', -1, 1);
+    folder4.open();
+
+    scene.add(sphere);
+    scene.add(sphere1);
+    scene.add(sphere2);
+    scene.add(box);
+    scene.add(cylinder);
+    scene.add(ico6);
+    scene.add(ico1);
+    scene.add(ico2);
+    scene.add(ico5);
+    scene.add(ico3);
+    scene.add(ico4);
+    scene.add(plane);
+
+    rotateThings.push(ico6);
+    rotateThings.push(ico1);
+    rotateThings.push(ico2);
+    rotateThings.push(ico5);
+    rotateThings.push(ico3);
+    rotateThings.push(ico4);
+
+    //scene.add(lightLeft);
+    //scene.add(lightRight);
+    //scene.add(directionalLight);
+    
 }
 
 function init() {
@@ -177,10 +467,9 @@ function init() {
     // scene
     scene = new THREE.Scene();
 
-    // const light = new THREE.DirectionalLight(0xffffff,1); //1: cuong do anh sang
-    // light.position.set(2,2,5);
-    // scene.add(light)
-
+    const light = new THREE.DirectionalLight(0xffffff,1); //1: cuong do anh sang
+    light.position.set(2,2,5);
+    scene.add(light)
 
 
     var ambient = new THREE.AmbientLight( 0x666666 );
@@ -212,9 +501,6 @@ function init() {
 
     camera.lookAt( scene.position, container );
     resetPosition();
-
-
-
 
     // model
     helper = new THREE.MMDHelper();
@@ -263,8 +549,8 @@ function init() {
 
     } );
 
+    addThingsToScene(scene);
     window.addEventListener( 'resize', onWindowResize, false );
-
 }
 
 function loadModels ( callback ) {
@@ -293,7 +579,7 @@ function loadModels ( callback ) {
 
             scene.add( mesh );
 
-            createGround();
+            //createGround();
 
             load( index + 1 );
 
@@ -426,6 +712,14 @@ function onWindowResize () {
 
 //
 
+function rotate(things) {
+    things.forEach(thing => {
+        thing.rotation.x += 0.01;
+        thing.rotation.y += 0.1;
+        thing.rotation.z += 0.01;
+    });
+}
+
 function update() {
 
     requestAnimationFrame( update );
@@ -445,6 +739,8 @@ function update() {
     }
 
     //effect.render( scene, camera );
+    //console.log(scene);
+    rotate(rotateThings);
     renderer.render( scene, camera );
 
 }
@@ -734,7 +1030,6 @@ function removeContainer() {
 }
 
 // dat.GUI setup
-// const gui = new dat.GUI();
 // gui.add(state, 'control', ['camera', 'miku']).name('Control').onChange(handleStateChange);
 //
 // // Function to handle state changes
@@ -768,6 +1063,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 // Handle camera control state
                 controlState = CONTROL_STATES.CAMERA;
                 removeContainer();
+                if(gui)
+                    gui.destroy();
                 init(); 
                 break;
             case "miku":
@@ -775,6 +1072,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 // Handle Miku control state
                 controlState = CONTROL_STATES.MIKU;
                 removeContainer();
+                if(gui)
+                    gui.destroy();
                 init(); 
                 break;
             default:

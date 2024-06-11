@@ -1,15 +1,16 @@
 // //thanh
-import * as THREE2 from 'three';
+import * as THREE_NPM from 'three';
+import * as dat from 'dat.gui';
 import {PointerLockFirstPersonCamera} from './PointerLockFirstPersonCamera.js';
 import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader.js'; 
 import { MMDAnimationHelper } from 'three/addons/animation/MMDAnimationHelper.js';
-import {FirstPersonCamera} from './FirstPersonCamera.js';
-var renderer = new THREE2.WebGLRenderer();
+//import {FirstPersonCamera} from './FirstPersonCamera.js';
+var renderer = new THREE_NPM.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 document.getElementById('webgl').appendChild(renderer.domElement);
 
- var camera = new THREE2.PerspectiveCamera(
+ var camera = new THREE_NPM.PerspectiveCamera(
         45,
         window.innerWidth/window.innerHeight,
         1,
@@ -19,11 +20,11 @@ document.getElementById('webgl').appendChild(renderer.domElement);
     camera.position.y = 8;
     camera.position.z = 100;
 
-    camera.lookAt(new THREE2.Vector3(0, 0, 0));
+    camera.lookAt(new THREE_NPM.Vector3(0, 0, 0));
     
 function init() {
     gui = new dat.GUI();
-    var scene = new THREE2.Scene();
+    var scene = new THREE_NPM.Scene();
 
     var sphereMaterial = getMaterial('standard', 'rgb(255, 4, 255)');
     var sphereMaterial1 = getMaterial('standard', 'rgb(255, 0, 0)');
@@ -114,12 +115,12 @@ function init() {
         path + 'pz' + format, path + 'nz' + format
     ];
 
-    var reflectionCube = new THREE2.CubeTextureLoader().load(urls);
-    reflectionCube.format = THREE2.RGBAFormat;
+    var reflectionCube = new THREE_NPM.CubeTextureLoader().load(urls);
+    reflectionCube.format = THREE_NPM.RGBAFormat;
 
     scene.background = reflectionCube;
 
-    var loader = new THREE2.TextureLoader();
+    var loader = new THREE_NPM.TextureLoader();
     planeMaterial.map = loader.load('/texture/brick_diffuse.jpg');
     planeMaterial.bumpMap = loader.load('/texture/brick_diffuse.jpg');
     planeMaterial.roughnessMap = loader.load('/texture/brick_diffuse.jpg');
@@ -153,8 +154,8 @@ function init() {
     var maps = ['map', 'bumpMap', 'roughnessMap'];
     maps.forEach(function(mapName) {
         var texture = planeMaterial[mapName];
-        texture.wrapS = THREE2.RepeatWrapping;
-        texture.wrapT = THREE2.RepeatWrapping;
+        texture.wrapS = THREE_NPM.RepeatWrapping;
+        texture.wrapT = THREE_NPM.RepeatWrapping;
         texture.repeat.set(15, 15);
     });
     
@@ -221,7 +222,7 @@ let gui
 
 function init2() {
     gui = new dat.GUI();
-    var scene = new THREE2.Scene();
+    var scene = new THREE_NPM.Scene();
 
 
 
@@ -470,9 +471,9 @@ function init2() {
 
     ];
 
-    var reflectionCube = new THREE2.CubeTextureLoader().load(urls);
+    var reflectionCube = new THREE_NPM.CubeTextureLoader().load(urls);
 
-    reflectionCube.format = THREE2.RGBAFormat;
+    reflectionCube.format = THREE_NPM.RGBAFormat;
 
 
 
@@ -480,7 +481,7 @@ function init2() {
 
 
 
-    var loader = new THREE2.TextureLoader();
+    var loader = new THREE_NPM.TextureLoader();
 
     planeMaterial.map = loader.load('/texture/checkerboard_2.jpg');
 
@@ -570,9 +571,9 @@ function init2() {
 
         var texture = planeMaterial[mapName];
 
-        texture.wrapS = THREE2.RepeatWrapping;
+        texture.wrapS = THREE_NPM.RepeatWrapping;
 
-        texture.wrapT = THREE2.RepeatWrapping;
+        texture.wrapT = THREE_NPM.RepeatWrapping;
 
         texture.repeat.set(15, 15);
 
@@ -668,7 +669,7 @@ function init2() {
 
     
 
-    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+    //var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
     // update(renderer, scene, camera, controls);
 
@@ -714,7 +715,7 @@ function update_1(thing) {
     thing.rotation.z += 0.01;
 }
 
-const clock=new THREE2.Clock()
+const clock=new THREE_NPM.Clock()
 
 const loader1 = new MMDLoader();
 var miku ='miku_v2.pmd';
@@ -752,7 +753,7 @@ function animate2(scene, camera, renderer, thing) {
 
 function getSpotLight(intensity, color) {
     color = color === undefined ? 'rgb(255, 255, 255)' : color;
-    var light = new THREE2.SpotLight(color, intensity);
+    var light = new THREE_NPM.SpotLight(color, intensity);
     light.castShadow = true;
     light.penumbra = 0.5;
 
@@ -763,7 +764,7 @@ function getSpotLight(intensity, color) {
 }
 
 function getDirectionalLight(intensity) {
-    var light = new THREE2.DirectionalLight(0xffffff, intensity);
+    var light = new THREE_NPM.DirectionalLight(0xffffff, intensity);
     light.castShadow = true;
 
     light.shadow.camera.left = -10;
@@ -776,37 +777,37 @@ function getDirectionalLight(intensity) {
 
 function getBox(material, w, h, d)
 {
-    var geometry = new THREE2.BoxGeometry(w, h, d);
-    var obj = new THREE2.Mesh(geometry, material);
+    var geometry = new THREE_NPM.BoxGeometry(w, h, d);
+    var obj = new THREE_NPM.Mesh(geometry, material);
     obj.castShadow = true;
     return obj;
 }
 
 function getSphere(material, size, segments)
 {
-    var geometry = new THREE2.SphereGeometry(size, segments, segments);
-    var obj = new THREE2.Mesh(geometry, material);
+    var geometry = new THREE_NPM.SphereGeometry(size, segments, segments);
+    var obj = new THREE_NPM.Mesh(geometry, material);
     obj.castShadow = true;
     return obj;
 }
 function getPlane(material, size)
 {
-    var geometry = new THREE2.PlaneGeometry(size, size);
-    material.side = THREE2.DoubleSide;
-    var obj = new THREE2.Mesh(geometry, material);
+    var geometry = new THREE_NPM.PlaneGeometry(size, size);
+    material.side = THREE_NPM.DoubleSide;
+    var obj = new THREE_NPM.Mesh(geometry, material);
     obj.receiveShadow = true;
     return obj;
 }
 
 function getIcosahedron(material, size) {
-    var geometry = new THREE2.IcosahedronGeometry(size);
-    var mesh = new THREE2.Mesh(geometry, material);
+    var geometry = new THREE_NPM.IcosahedronGeometry(size);
+    var mesh = new THREE_NPM.Mesh(geometry, material);
     return mesh;
 }
 
 function getCylinder(material, r_top, r_bot, h, radial) {
-    var geometry = new THREE2.CylinderGeometry(r_top, r_bot, h, radial); 
-    var cylinder = new THREE2.Mesh(geometry, material );
+    var geometry = new THREE_NPM.CylinderGeometry(r_top, r_bot, h, radial); 
+    var cylinder = new THREE_NPM.Mesh(geometry, material );
     return cylinder
 }
 
@@ -818,19 +819,19 @@ function getMaterial(type, color){
 
     switch (type) {
         case 'basic':
-            selectedMaterial = new THREE2.MeshBasicMaterial(materialOptions);
+            selectedMaterial = new THREE_NPM.MeshBasicMaterial(materialOptions);
             break;
         case 'lambert':
-            selectedMaterial = new THREE2.MeshLambertMaterial(materialOptions);
+            selectedMaterial = new THREE_NPM.MeshLambertMaterial(materialOptions);
             break;
         case 'phong':
-            selectedMaterial = new THREE2.MeshPhongMaterial(materialOptions);
+            selectedMaterial = new THREE_NPM.MeshPhongMaterial(materialOptions);
             break;
         case 'standard':
-            selectedMaterial = new THREE2.MeshStandardMaterial(materialOptions);
+            selectedMaterial = new THREE_NPM.MeshStandardMaterial(materialOptions);
             break;
         default:
-            selectedMaterial = new THREE2.MeshBasicMaterial(materialOptions);
+            selectedMaterial = new THREE_NPM.MeshBasicMaterial(materialOptions);
             break;
     }
     return selectedMaterial;
@@ -842,14 +843,14 @@ var scene = init();
 //bao 
 
 let count=0;
-const firstPersonCamera = new PointerLockFirstPersonCamera(camera, renderer);
+//const firstPersonCamera = new PointerLockFirstPersonCamera(camera, renderer);
 function animate1() {
     requestAnimationFrame(animate1); // Thêm dòng này để loop animation
    
 	helper.update( clock.getDelta() );
 
     renderer.render(scene, camera);
-    firstPersonCamera.update(clock.getDelta());
+    //firstPersonCamera.update(clock.getDelta());
 }
 
 let select1="pmd/miku_v2.pmd";
@@ -925,13 +926,13 @@ gui.destroy();
         }
     );
     setTimeout(() => {
-        new THREE2.AudioLoader().load(
+        new THREE_NPM.AudioLoader().load(
             'wavefile_short.mp3',
             
              function ( buffer ) {
     
-                const listener = new THREE2.AudioListener();
-                const audio = new THREE2.Audio( listener ).setBuffer( buffer );
+                const listener = new THREE_NPM.AudioListener();
+                const audio = new THREE_NPM.Audio( listener ).setBuffer( buffer );
     
                 listener.position.z = 1;
     
