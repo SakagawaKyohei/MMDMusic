@@ -1,0 +1,66 @@
+ <!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Three.js MMDLoader app Walk</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0}
+		</style>
+	</head>
+	<body>
+		<div style="font-size: 20px; display: flex;justify-content: center;margin: 0px; font-weight: bold;"><p>MMD Music</p></div>
+		<select id="mySelect">
+			<option value="pmd/miku_v2.pmd">Miku</option>
+			<option value="pmd/rin.pmd">Rin</option>
+		</select>
+		<select id="mySelect1">
+			<option value="wavefile_v2.vmd">Wavefire</option>
+			<option value="vmd/tokino_kakera.vmd">Tokino Kakera</option>
+		</select>
+		<select id="stage">
+			<option value="s1">Stage 1</option>
+			<option value="s2">Stage 2</option>
+		</select>
+		<button id="mybutton" style="margin-bottom: 10px;">Run</button>
+        <div id="webgl"></div>
+		<script type="module" src="/main.js" ></script>
+		<!-- <script type="module" src="./main1.js" ></script> -->
+		<script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/libs/ammo.js"></script>
+
+        <script src="three.js"></script>
+		
+        <script src="dat.gui.min.js"></script>
+        <script src="OrbitControls.js"></script>
+
+		<!-- <script type="module" src="./InputController.js"></script> -->
+		<!-- <script type="module" src="./FirstPersonCamera.js"></script> -->
+
+		<!---->
+		<!--       <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script> -->
+		<!-- <script src="https://rawcdn.githack.com/mrdoob/three.js/r87/build/three.js"></script> -->
+		<!---->
+		<!-- <script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/libs/mmdparser.min.js"></script> -->
+		<!-- <script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/libs/ammo.js"></script> -->
+		<!-- <script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/loaders/TGALoader.js"></script> -->
+		<!-- <script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/loaders/MMDLoader.js"></script> -->
+		<!-- <script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/effects/OutlineEffect.js"></script> -->
+		<!-- <script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/animation/CCDIKSolver.js"></script> -->
+		<!-- <script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/animation/MMDPhysics.js"></script> -->
+		<!---->
+		<!-- <script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/controls/OrbitControls.js"></script> -->
+		<!-- <script src="https://rawcdn.githack.com/mrdoob/three.js/r87/examples/js/Detector.js"></script> -->
+		<!-- <script type="module" src='./index.js'></script> -->
+		<!---->
+		<!---->
+		<!-- <div style="font-size: 20px; display: flex;justify-content: center;font-weight: bold;"><p>Simple Controller</p></div> -->
+		<!-- <div id="something" style="margin-bottom: 10px;"> -->
+		<!--           <label for="controlSelect">Choose a control:</label> -->
+		<!--           <select id="controlSelect" name="controlSelect"> -->
+		<!--               <option value="camera">Camera Control</option> -->
+		<!--               <option value="miku">Miku Control</option> -->
+		<!--           </select> -->
+		<!--       </div> -->
+	</body>
+</html>

@@ -1,8 +1,10 @@
-//import * as THREE from 'three';
+import * as THREE_NPM from 'three';
 import {InputController} from './InputController'
 import {FirstPersonCamera} from './FirstPersonCamera.js';
 import {PointerLockInputController} from './PointerLockInputController'
 import {PointerLockFirstPersonCamera} from './PointerLockFirstPersonCamera.js';
+import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader.js'; 
+import { MMDAnimationHelper } from 'three/addons/animation/MMDAnimationHelper.js';
 
 
 const CONTROL_STATES = {
@@ -22,6 +24,10 @@ var container;
 
 var camera, scene, renderer, effect;
 var helper, loader;
+
+const loader1 = new MMDLoader();
+var miku1 ='miku_v2.pmd';
+const helper1 = new MMDAnimationHelper();
 
 var controls;
 
@@ -460,7 +466,7 @@ function addThingsToScene(scene)  {
 function init() {
 
     container = document.createElement( 'div' );
-    document.body.appendChild( container );
+    document.getElementById('pre-dance').appendChild( container );
 
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
 
@@ -1029,25 +1035,6 @@ function removeContainer() {
     }
 }
 
-// dat.GUI setup
-// gui.add(state, 'control', ['camera', 'miku']).name('Control').onChange(handleStateChange);
-//
-// // Function to handle state changes
-// function handleStateChange(value) {
-//     switch(value) {
-//         case 'camera':
-//             console.log("Camera Control selected");
-//             // Handle camera control state
-//             break;
-//         case 'miku':
-//             console.log("Miku Control selected");
-//             // Handle Miku control state
-//             break;
-//         default:
-//             console.log("Unknown state selected");
-//     }
-// }
-
 document.addEventListener("DOMContentLoaded", function() {
     var controlSelect = document.getElementById("controlSelect");
 
@@ -1081,6 +1068,102 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 });
+
+
+let select1="pmd/miku_v2.pmd";
+let select2="vmd/wavefile_v2.vmd";
+
+document.getElementById("mySelect").addEventListener("change", function() {
+    select1 = this.value;
+});
+document.getElementById("mySelect1").addEventListener("change", function() {
+    select2 = this.value;
+});
+
+document.getElementById("mybutton").addEventListener("click",function(){ 
+    //console.log("Hello world")
+    // gui.destroy();
+    // if(s=="s1") {
+    //     while(scene.children.length > 0){ 
+    //         scene.remove(scene.children[0]); 
+    //     }
+    //
+    //     scene=init();
+    // }
+    // else{
+    //     while(scene.children.length > 0){ 
+    //         scene.remove(scene.children[0]); 
+    //     }
+    //
+    //     scene=init2();
+    //     console.log("aaa")
+    // }
+    // if(count>0) {
+    //     const lastObject = scene.children[scene.children.length - 1];
+    //
+    //     // Remove the last object from the scene
+    //     scene.remove(lastObject);
+    //
+    // }
+    // count=count+1;
+    // console.log(select1+select2)
+    //
+    //
+    
+    // TODO: Do something completely new 
+
+    // Load mô hình 3D mới
+    loader1.loadWithAnimation(
+        select1,
+        select2,
+        function(mmd) {
+            helper1.add(mmd.mesh, {
+                animation: mmd.animation,
+                physics: true
+            });
+
+            scene.add(mmd.mesh);
+            // Lưu trữ tham chiếu đến mô hình 3D mới
+            currentModel = mmd.mesh;
+            // Load âm thanh
+
+
+
+        },
+        function(xhr) {
+            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        },
+        function(error) {
+            console.log(error);
+        }
+    );
+
+    setTimeout(() => {
+        new THREE_NPM.AudioLoader().load(
+            'wavefile_short.mp3',
+
+            function ( buffer ) {
+
+                const listener = new THREE_NPM.AudioListener();
+                const audio = new THREE_NPM.Audio( listener ).setBuffer( buffer );
+
+                listener.position.z = 1;
+
+                scene.add( audio );
+                scene.add( listener );
+                audio.play();
+            }
+
+        );
+    }, 6350);
+});
+
+let s;
+document.getElementById("stage").addEventListener("change", function() {
+   s=this.value
+});
+
+
 
 init();
 update();

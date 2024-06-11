@@ -1,4 +1,3 @@
-// //thanh
 import * as THREE_NPM from 'three';
 import * as dat from 'dat.gui';
 import {PointerLockFirstPersonCamera} from './PointerLockFirstPersonCamera.js';
@@ -8,7 +7,7 @@ import { MMDAnimationHelper } from 'three/addons/animation/MMDAnimationHelper.js
 var renderer = new THREE_NPM.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
-document.getElementById('webgl').appendChild(renderer.domElement);
+document.getElementById('dance').appendChild(renderer.domElement);
 
  var camera = new THREE_NPM.PerspectiveCamera(
         45,
@@ -205,7 +204,7 @@ function init() {
     scene.add(directionalLight);
     
    
-    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+    //var controls = new THREE.OrbitControls(camera, renderer.domElement);
  
 
     animate(scene, camera, renderer, ico1);
@@ -748,6 +747,7 @@ function animate2(scene, camera, renderer, thing) {
   requestAnimationFrame(function () {animate2(scene, camera, renderer, thing);});
 
   renderer.render(scene, camera);
+  firstPersonCamera.update(clock.getDelta());
 
 }
 
@@ -839,18 +839,17 @@ function getMaterial(type, color){
 
 var scene = init();
 
-
 //bao 
 
 let count=0;
-//const firstPersonCamera = new PointerLockFirstPersonCamera(camera, renderer);
+const firstPersonCamera = new PointerLockFirstPersonCamera(camera, renderer);
 function animate1() {
     requestAnimationFrame(animate1); // Thêm dòng này để loop animation
    
 	helper.update( clock.getDelta() );
 
     renderer.render(scene, camera);
-    //firstPersonCamera.update(clock.getDelta());
+    firstPersonCamera.update(clock.getDelta());
 }
 
 let select1="pmd/miku_v2.pmd";
@@ -912,7 +911,7 @@ gui.destroy();
      
             scene.add(mmd.mesh);
             // Lưu trữ tham chiếu đến mô hình 3D mới
-            currentModel = mmd.mesh;
+            //currentModel = mmd.mesh;
             // Load âm thanh
            
     
@@ -945,6 +944,7 @@ gui.destroy();
       }, 6350);
 
 })
+
 let s;
 document.getElementById("stage").addEventListener("change", function() {
    s=this.value
