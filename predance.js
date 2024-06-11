@@ -301,55 +301,55 @@ function addThingsToScene(scene)  {
     var lightRight = getSpotLight(7000, 'rgb(255, 220, 180)');
     var directionalLight = getDirectionalLight(10);
 
-    sphere.position.y = sphere.geometry.parameters.radius;
+    sphere.position.y = -15+sphere.geometry.parameters.radius;
     sphere.position.x = 68;
     sphere.position.z = -60;
-    sphere2.position.y = 20;
+    sphere2.position.y = -15+20;
     sphere2.position.x = -65;
     sphere2.position.z = -30;
     sphere1.position.x = 14;
-    sphere1.position.y = 23;
+    sphere1.position.y = -15+23;
     sphere1.position.z = -60;
     plane.rotation.x = Math.PI/2;
     box.position.x = -5;
-    box.position.y = 7.6;
+    box.position.y = -15+7.6;
     box.position.z = -60;
     cylinder.position.x = -65;
-    cylinder.position.y = 6;
+    cylinder.position.y = -15+6;
     cylinder.position.z = -30;
 
     ico1.position.x = -70;
-    ico1.position.y = 6;
+    ico1.position.y = -15+6;
     ico1.position.z = 20;
     ico6.position.x = 70;
-    ico6.position.y = 6;
+    ico6.position.y = -15+6;
     ico6.position.z = 20;
 
     ico2.position.x = -45;
-    ico2.position.y = 6;
+    ico2.position.y = -15+6;
     ico2.position.z = 40;
     ico5.position.x = 45;
-    ico5.position.y = 6;
+    ico5.position.y = -15+6;
     ico5.position.z = 40;
 
     ico3.position.x = -22;
-    ico3.position.y = 6;
+    ico3.position.y = -15+6;
     ico3.position.z = 60;
     ico4.position.x = 22;
-    ico4.position.y = 6;
+    ico4.position.y = -15+6;
     ico4.position.z = 60;
 
     
     lightLeft.position.x = -32;
-    lightLeft.position.y = 10;
+    lightLeft.position.y = -15+10;
     lightLeft.position.z = 8;
 
     lightRight.position.x = 32;
-    lightRight.position.y = 10;
+    lightRight.position.y = -15+10;
     lightRight.position.z = 8;
 
     directionalLight.position.x = 9;
-    directionalLight.position.y = 2.5;
+    directionalLight.position.y = -15+2.5;
     directionalLight.position.z = 15;
     directionalLight.intensity = 6;
 
