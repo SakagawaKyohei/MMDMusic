@@ -1,10 +1,13 @@
 import * as THREE_NPM from 'three';
 import * as dat from 'dat.gui';
 import {PointerLockFirstPersonCamera} from './PointerLockFirstPersonCamera.js';
+
+
 import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader.js'; 
 import { MMDAnimationHelper } from 'three/addons/animation/MMDAnimationHelper.js';
 //import {FirstPersonCamera} from './FirstPersonCamera.js';
 var renderer = new THREE_NPM.WebGLRenderer();
+const loadermmd = new MMDLoader();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 document.getElementById('dance').appendChild(renderer.domElement);
@@ -863,7 +866,6 @@ document.getElementById("mySelect1").addEventListener("change", function() {
 });
 
 document.getElementById("mybutton").addEventListener("click",function(){
-    let audio;
 gui.destroy();
     if(s=="s1")
         {
@@ -929,6 +931,67 @@ gui.destroy();
 
 
 })
+document.getElementById("stop").addEventListener("click",function(){
+    gui.destroy();
+        if(s=="s1")
+            {
+                while(scene.children.length > 0){ 
+                    scene.remove(scene.children[0]); 
+                }
+            
+                scene=init();
+            }
+            else{
+                while(scene.children.length > 0){ 
+                    scene.remove(scene.children[0]); 
+                }
+            
+                scene=init2();
+                console.log("aaa")
+            }
+        if(count>0)
+            {
+                const lastObject = scene.children[scene.children.length - 1];
+        
+                // Remove the last object from the scene
+                scene.remove(lastObject);
+                
+            }
+            count=count+1;
+            console.log(select1+select2)
+    
+        
+        
+            // Thực thi một hành động nào đó khi button được click
+            // alert("Button clicked!");
+        
+            // Thay đổi giá trị của biến miku
+        
+            loadermmd.load(
+                // path to PMD/PMX file
+                select1,
+                // called when the resource is loaded
+                function ( mesh ) {
+            
+                    scene.add( mesh );
+            
+                },
+                // called when loading is in progresses
+                function ( xhr ) {
+            
+                    console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+            
+                },
+                // called when loading has errors
+                function ( error ) {
+            
+                    console.log( 'An error happened' );
+            
+                }
+            );
+    
+    
+    })
 
 let s="s1";
 document.getElementById("stage").addEventListener("change", function() {

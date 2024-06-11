@@ -1195,6 +1195,13 @@ if(audio!=null&&audio!=undefined)
                   },0);
             }
 });
+document.getElementById("stop").addEventListener("click",function(){
+    if(audio!=null&& audio.isPlaying)
+        {
+            audio.stop();
+        }
+    })
+
 
 let s;
 document.getElementById("stage").addEventListener("change", function() {
