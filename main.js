@@ -1,3 +1,4 @@
+import * as THREE_NPM from 'three';
 import {InputController} from './InputController'
 import {FirstPersonCamera} from './FirstPersonCamera.js';
 import {PointerLockInputController} from './PointerLockInputController'
@@ -8,6 +9,9 @@ const CONTROL_STATES = {
     CAMERA: 0, 
     MIKU: 1, 
 }
+
+console.log(THREE_NPM);
+console.log(THREE);
 
 let controlState = CONTROL_STATES.CAMERA;
 //let controlState = CONTROL_STATES.MIKU;
