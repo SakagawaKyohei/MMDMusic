@@ -863,6 +863,7 @@ document.getElementById("mySelect1").addEventListener("change", function() {
 });
 
 document.getElementById("mybutton").addEventListener("click",function(){
+    let audio;
 gui.destroy();
     if(s=="s1")
         {
@@ -924,28 +925,12 @@ gui.destroy();
             console.log(error);
         }
     );
-    setTimeout(() => {
-        new THREE_NPM.AudioLoader().load(
-            'wavefile_short.mp3',
-            
-             function ( buffer ) {
-    
-                const listener = new THREE_NPM.AudioListener();
-                const audio = new THREE_NPM.Audio( listener ).setBuffer( buffer );
-    
-                listener.position.z = 1;
-    
-                scene.add( audio );
-                scene.add( listener );
-    audio.play();
-            }
-    
-        );
-      }, 6350);
+
+
 
 })
 
-let s;
+let s="s1";
 document.getElementById("stage").addEventListener("change", function() {
    s=this.value
 });

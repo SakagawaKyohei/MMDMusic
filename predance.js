@@ -1079,8 +1079,9 @@ document.getElementById("mySelect").addEventListener("change", function() {
 document.getElementById("mySelect1").addEventListener("change", function() {
     select2 = this.value;
 });
-
+let audio;
 document.getElementById("mybutton").addEventListener("click",function(){ 
+    console.log(select2);
     //console.log("Hello world")
     // gui.destroy();
     // if(s=="s1") {
@@ -1138,24 +1139,61 @@ document.getElementById("mybutton").addEventListener("click",function(){
         }
     );
 
-    setTimeout(() => {
-        new THREE_NPM.AudioLoader().load(
-            'wavefile_short.mp3',
+    if(select2=="vmd/wavefile_v2.vmd"||select2=="wavefile_v2.vmd")
+        {
+if(audio!=null&&audio!=undefined)
+    {
+        audio.stop();
+    }
+    console.log(audio);
+            setTimeout(() => {
+                new THREE_NPM.AudioLoader().load(
+                    'wavefile_short.mp3',
+                    
+                     function ( buffer ) {
+            
+                        const listener = new THREE_NPM.AudioListener();
+                        audio = new THREE_NPM.Audio( listener ).setBuffer( buffer );
+            
+                        listener.position.z = 1;
+            
+                        scene.add( audio );
+                        scene.add( listener );
+            audio.play();
+            console.log(audio)
+                    }
+            
+                );
+              }, 6350);
 
-            function ( buffer ) {
-
-                const listener = new THREE_NPM.AudioListener();
-                const audio = new THREE_NPM.Audio( listener ).setBuffer( buffer );
-
-                listener.position.z = 1;
-
-                scene.add( audio );
-                scene.add( listener );
+              
+        }
+      else
+            {
+                if(audio!=null&& audio.isPlaying)
+                    {
+                        audio.stop();
+                    }
+                    console.log(select2)
+                setTimeout(() => {
+                    new THREE_NPM.AudioLoader().load(
+                        'MMD Toki No Kakera.mp3',
+                        
+                         function ( buffer ) {
+                
+                            const listener = new THREE_NPM.AudioListener();
+                            audio = new THREE_NPM.Audio( listener ).setBuffer( buffer );
+                
+                            listener.position.z = 1;
+                
+                            scene.add( audio );
+                            scene.add( listener );
                 audio.play();
+                        }
+                
+                    );
+                  },0);
             }
-
-        );
-    }, 6350);
 });
 
 let s;

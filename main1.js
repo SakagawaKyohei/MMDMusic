@@ -344,9 +344,9 @@ function getMaterial(type, color) {
             return new THREE_NPM.MeshBasicMaterial(materialOptions);
     }
 }
-
 document.getElementById("mybutton").addEventListener("click",function(){
 gui.destroy();
+let audio;
     if(s=="s1")
         {
             while(scene.children.length > 0){ 
@@ -407,27 +407,53 @@ gui.destroy();
             console.log(error);
         }
     );
-    setTimeout(() => {
-        new THREE_NPM.AudioLoader().load(
-            'wavefile_short.mp3',
-            
-             function ( buffer ) {
-    
-                const listener = new THREE_NPM.AudioListener();
-                const audio = new THREE_NPM.Audio( listener ).setBuffer( buffer );
-    
-                listener.position.z = 1;
-    
-                scene.add( audio );
-                scene.add( listener );
-    audio.play();
-            }
-    
-        );
-      }, 6350);
 
-})
-let s;
+// if(select1=="vmd/wavefire_v2.vmd")
+//     {
+//         audio.stop();
+//         setTimeout(() => {
+//             new THREE_NPM.AudioLoader().load(
+//                 'wavefile_short.mp3',
+                
+//                  function ( buffer ) {
+        
+//                     const listener = new THREE_NPM.AudioListener();
+//                     const audio = new THREE_NPM.Audio( listener ).setBuffer( buffer );
+        
+//                     listener.position.z = 1;
+        
+//                     scene.add( audio );
+//                     scene.add( listener );
+//         audio.play();
+//                 }
+        
+//             );
+//           }, 6350);
+//     }
+//   else
+//         {
+//             audio.stop();
+//             setTimeout(() => {
+//                 new THREE_NPM.AudioLoader().load(
+//                     'MMD Toki No Kakera.mp3',
+                    
+//                      function ( buffer ) {
+            
+//                         const listener = new THREE_NPM.AudioListener();
+//                         const audio = new THREE_NPM.Audio( listener ).setBuffer( buffer );
+            
+//                         listener.position.z = 1;
+            
+//                         scene.add( audio );
+//                         scene.add( listener );
+//             audio.play();
+//                     }
+            
+//                 );
+//               }, 6350);
+//         }
+// })
+let s="s1";
 document.getElementById("stage").addEventListener("change", function() {
    s=this.value
 });

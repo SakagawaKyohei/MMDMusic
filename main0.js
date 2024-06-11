@@ -925,24 +925,7 @@ gui.destroy();
             console.log(error);
         }
     );
-    setTimeout(() => {
-        new THREE_NPM.AudioLoader().load(
-            'wavefile_short.mp3',
-            
-             function ( buffer ) {
-    
-                const listener = new THREE_NPM.AudioListener();
-                const audio = new THREE_NPM.Audio( listener ).setBuffer( buffer );
-    
-                listener.position.z = 1;
-    
-                scene.add( audio );
-                scene.add( listener );
-    audio.play();
-            }
-    
-        );
-      }, 6350);
+
 
 })
 
