@@ -407,35 +407,7 @@ function addThingsToScene(scene)  {
     });
     
 
-    gui = new dat.GUI();
-    var folder1 = gui.addFolder('spotlight_1');
-    folder1.add(lightLeft, 'intensity', 0, 10000);
-    folder1.add(lightLeft.position, 'x', -100, 100);
-    folder1.add(lightLeft.position, 'y', -80, 80);
-    folder1.add(lightLeft.position, 'z', -100, 100);
-
-    var folder2 = gui.addFolder('spotlight_2');
-    folder2.add(lightRight, 'intensity', 0, 10000);
-    folder2.add(lightRight.position, 'x', -100, 100);
-    folder2.add(lightRight.position, 'y', -80, 80);
-    folder2.add(lightRight.position, 'z', -100, 100);
-
-    var folder3 = gui.addFolder('directional_light');
-    folder3.add(directionalLight, 'intensity', 0, 10);
-    folder3.add(directionalLight.position, 'x', -40, 40);
-    folder3.add(directionalLight.position, 'y', -40, 40);
-    folder3.add(directionalLight.position, 'z', -40, 40);
-
-    var folder4 = gui.addFolder('materials');
-    folder4.add(sphereMaterial, 'roughness', -1, 1);
-    folder4.add(sphereMaterial, 'metalness', -1, 1);
-    folder4.add(sphereMaterial1, 'roughness', -1, 1);
-    folder4.add(sphereMaterial1, 'metalness', -1, 1);
-    folder4.add(sphereMaterial2, 'roughness', -1, 1);
-    folder4.add(sphereMaterial2, 'metalness', -1, 1);
-    folder4.add(planeMaterial, 'roughness', -1, 1);
-    folder4.add(planeMaterial, 'metalness', -1, 1);
-    folder4.open();
+    
 
     scene.add(sphere);
     scene.add(sphere1);
